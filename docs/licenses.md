@@ -38,11 +38,20 @@ TalkingHead README 提到的其他素材（Mixamo 動畫 `walking.fbx`、`dance.
 | 模型 `mobiuslabsgmbh/faster-whisper-large-v3-turbo`（預設） | 首次執行時從 Hugging Face 下載，約 1.6 GB | 原模型 `openai/whisper-large-v3-turbo` 為 MIT；轉換版的模型卡授權欄位未能自動查到，待人工確認 |
 | 模型 `Systran/faster-whisper-small`（`--model small`） | 同上 | MIT（由 OpenAI Whisper small 轉換，原模型為 MIT） |
 
+## 複製聲音（`scripts/clone_voice.py`，選用）
+
+| 套件或模型 | 授權 | 備註 |
+|---|---|---|
+| `f5-tts` 1.1.22（程式碼） | MIT | |
+| 模型權重 `SWivid/F5-TTS`（F5TTS_v1_Base） | **CC BY-NC 4.0** | 只能非商業使用 |
+| 聲碼器 `charactr/vocos-mel-24khz` | MIT | |
+| PyTorch | BSD-3-Clause | |
+
 ## 系統工具（不隨專案散布）
 
 | 工具 | 授權 | 備註 |
 |---|---|---|
-| FFmpeg 6.1 | LGPL-2.1+ 或 GPL（依編譯選項，Ubuntu 套件含 GPL 元件） | 只在本機呼叫，不打包進產品 |
+| FFmpeg 6.1 | LGPL-2.1+ 或 GPL（依編譯選項，Ubuntu 套件含 GPL 元件） | 只在本機呼叫，不打包進產品；變聲用到其中的 rubberband（GPL-2.0+） |
 | eSpeak NG 1.51 | GPL-3.0 | 只用來產生測試台詞 |
 
 ## 環境備註

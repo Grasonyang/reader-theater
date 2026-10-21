@@ -237,6 +237,12 @@ def main() -> int:
         wav = out_dir / f"{ln['id']}.wav"
         cut(args.audio, wav, start, end)
         times = word_times(len(toks), hit["pairs"], words)
+        issues = []
+        for a, b in hit["pairs"]:
+            if b is None:
+                issues.append(f"「{disp[a]}」沒聽到")
+            elif not similar(toks[a], heard[b]):
+                issues.append(f"「{disp[a]}」聽成「{words[b]['word']}」")
         line_json = {
             "audio": wav.name,
             "sample_rate": stamps["sample_rate"],
@@ -244,6 +250,8 @@ def main() -> int:
             "offset": round(start, 3),
             "duration": round(end - start, 3),
             "text": ln["text"],
+            # 念錯或漏念的字，clone_voice.py 挑參考音檔時用
+            "issues": issues,
             "words": [
                 {
                     "word": w,
@@ -260,12 +268,6 @@ def main() -> int:
         ln["audio"] = Path(wav).resolve().relative_to(Path.cwd()).as_posix()
         ln["timestamps"] = json_path.resolve().relative_to(Path.cwd()).as_posix()
 
-        issues = []
-        for a, b in hit["pairs"]:
-            if b is None:
-                issues.append(f"「{disp[a]}」沒聽到")
-            elif not similar(toks[a], heard[b]):
-                issues.append(f"「{disp[a]}」聽成「{words[b]['word']}」")
         mark = "；".join(issues) if issues else "OK"
         report.append(
             f"- **{ln['id']}**（{ln['speaker']}，{end - start:.1f} 秒）：{mark}"

@@ -17,6 +17,9 @@ npm run dev                      # 開 http://localhost:5173，按「播放台�
 | `npm run record` | 無頭瀏覽器逐格算圖，輸出 5 秒的 `preview.mp4` |
 | `node scripts/record_scene.mjs <劇本名稱> [場次] -o <輸出.mp4>` | 逐格算圖整場或整齣演出 |
 
+| `uv run scripts/role_voices.py <劇本.json>` | 一人分飾多角：依角色設定變聲，輸出 `<名稱>-voices.json` |
+| `scripts/spark_clone.sh <錄音資料夾>` | 在 GPU 機器上用 F5-TTS 複製你的聲音，輸出 `<名稱>-clone.json`（見 docs/voice-clone.md） |
+
 網頁加 `?script=<名稱>&scene=<場次>` 會演 `assets/scripts/<名稱>.json`（例：`?script=missing-duck&scene=s1`）。
 
 需要 Node 22、uv、ffmpeg。劇本格式見 [docs/script-schema.md](docs/script-schema.md)，授權見 [docs/licenses.md](docs/licenses.md)。

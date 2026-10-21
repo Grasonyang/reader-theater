@@ -19,3 +19,7 @@ public/avatars/*.glb
 
 # 使用者自己的錄音（個人聲音，不進版控）
 assets/audio/voice/
+
+# 由 role_voices.py、clone_voice.py 產生的劇本（指向不進版控的錄音）
+assets/scripts/*-voices.json
+assets/scripts/*-clone.json
