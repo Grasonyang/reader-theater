@@ -9,7 +9,7 @@
 
 用法：
     uv run scripts/prep_audio.py <輸入音檔> [-o 輸出.wav] [--json 輸出.json]
-                                 [--denoise] [--model small]
+                                 [--denoise] [--no-clarity] [--model small]
 
 處理順序：
     1. 先把音量拉到 -23 LUFS，讓後面的濾波器與壓縮器在固定的音量下工作
@@ -71,7 +71,9 @@ def measure_lufs(path: Path) -> float:
     raise RuntimeError("ebur128 沒有回報整合響度")
 
 
-def normalize(src: Path, dst: Path, denoise: bool = False) -> tuple[float, float]:
+def normalize(
+    src: Path, dst: Path, denoise: bool = False, clarity: bool = True
+) -> tuple[float, float]:
     """轉 48 kHz 單聲道、清晰化，再把響度調到 TARGET_LUFS。
 
     不用 loudnorm：短台詞需要的增益常讓峰值超標，loudnorm 會退回
@@ -86,7 +88,8 @@ def normalize(src: Path, dst: Path, denoise: bool = False) -> tuple[float, float
         to_f32 = ["-ar", str(SAMPLE_RATE), "-ac", "1", "-c:a", "pcm_f32le"]
         run_ffmpeg(["-i", str(src), *to_f32, str(mono)])
         input_lufs = measure_lufs(mono)
-        chain = CLARITY_FILTER
+        # 合成語音（clone_voice.py）不做清晰化：EQ 會放大聲碼器的金屬聲
+        chain = CLARITY_FILTER if clarity else "anull"
         if denoise:
             chain = chain.replace("highpass=f=90,", f"highpass=f=90,{DENOISE_FILTER},")
         af = f"volume={PRE_GAIN_LUFS - input_lufs:.2f}dB,{chain}"
@@ -185,6 +188,11 @@ def main() -> int:
     parser.add_argument(
         "--denoise", action="store_true", help="加頻域降噪，錄音環境吵雜時再開"
     )
+    parser.add_argument(
+        "--no-clarity",
+        action="store_true",
+        help="不做 EQ、壓縮、去齒音，只調響度（給合成語音用）",
+    )
     parser.add_argument("--language", default="en", help="語言代碼（預設 en）")
     args = parser.parse_args()
 
@@ -198,7 +206,9 @@ def main() -> int:
         return 1
     json_out: Path = args.json or out.with_suffix(".json")
 
-    input_lufs, lufs = normalize(src, out, denoise=args.denoise)
+    input_lufs, lufs = normalize(
+        src, out, denoise=args.denoise, clarity=not args.no_clarity
+    )
     print(
         f"清晰化與響度：{src} -> {out}（輸入 {input_lufs:.1f} LUFS，輸出 {lufs:.1f} LUFS）"
     )

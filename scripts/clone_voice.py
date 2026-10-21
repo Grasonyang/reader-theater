@@ -103,7 +103,14 @@ def pick_references(script: dict) -> dict[str, dict]:
             if line["speaker"] not in best or key > best[line["speaker"]][0]:
                 best[line["speaker"]] = (
                     key,
-                    {"audio": line["audio"], "text": line["text"], "id": line["id"]},
+                    {
+                        "audio": line["audio"],
+                        "text": line["text"],
+                        "id": line["id"],
+                        "source": stamps.get("source"),
+                        "offset": stamps.get("offset"),
+                        "duration": dur,
+                    },
                 )
     refs = {sp: v[1] for sp, v in best.items()}
     fallback_id = script["characters"][0]["id"]
@@ -114,6 +121,28 @@ def pick_references(script: dict) -> dict[str, dict]:
     for c in script["characters"]:
         refs.setdefault(c["id"], refs[fallback_id])
     return refs
+
+
+def unprocessed_reference(ref: dict, tmp: Path) -> str:
+    """從原始錄音切出參考音檔，只調響度。
+
+    已對齊的台詞音檔做過清晰化（EQ 補高頻、壓縮），拿它當參考，F5-TTS 會把加強過的
+    高頻當成你的音色，合成出來偏金屬聲。找不到原始錄音時退回用處理過的音檔。
+    """
+    if not ref.get("source") or ref.get("offset") is None:
+        return ref["audio"]
+    raw_dir = Path(ref["audio"]).parents[1] / "raw"
+    raws = sorted(raw_dir.glob(f"{Path(ref['source']).stem}.*"))
+    if not raws:
+        return ref["audio"]
+    out = tmp / f"ref-{ref['id']}.wav"
+    subprocess.run(
+        ["ffmpeg", "-hide_banner", "-nostdin", "-loglevel", "error", "-y",
+         "-ss", f"{ref['offset']:.3f}", "-t", f"{ref['duration']:.3f}", "-i", str(raws[0]),
+         "-ac", "1", "-ar", "24000", "-af", "highpass=f=70,loudnorm=I=-20:TP=-2", str(out)],
+        check=True,
+    )  # fmt: skip
+    return str(out)
 
 
 def main() -> int:
@@ -133,7 +162,7 @@ def main() -> int:
         "--model", default="F5TTS_v1_Base", help="F5-TTS 模型（預設 F5TTS_v1_Base）"
     )
     parser.add_argument(
-        "--nfe", type=int, default=32, help="取樣步數，越大越細但越慢（預設 32）"
+        "--nfe", type=int, default=64, help="取樣步數，越大越細但越慢（預設 64）"
     )
     parser.add_argument(
         "--attempts",
@@ -170,6 +199,13 @@ def main() -> int:
     raw_dir = out_dir / ("trial" if only else "raw")
     raw_dir.mkdir(parents=True, exist_ok=True)
 
+    import tempfile
+
+    tmp = Path(tempfile.mkdtemp(prefix="clone-ref-"))
+    ref_audio = {}
+    for r in refs.values():
+        ref_audio.setdefault(r["id"], unprocessed_reference(r, tmp))
+
     tts = F5TTS(model=args.model, device=device)
     sr = tts.target_sample_rate
     verifier = Verifier(sr)
@@ -186,7 +222,7 @@ def main() -> int:
             best = None
             for attempt in range(max(1, args.attempts)):
                 wav, _, _ = tts.infer(
-                    ref_file=ref["audio"],
+                    ref_file=ref_audio[ref["id"]],
                     ref_text=ref["text"],
                     gen_text=line["text"],
                     nfe_step=args.nfe,
@@ -241,7 +277,11 @@ def main() -> int:
     clone_script.write_text(
         json.dumps(script, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    subprocess.run([str(Path(__file__).parent / "prep_scenes.sh"), name], check=True)
+    # 合成語音只調響度，不做清晰化（EQ 會放大聲碼器的金屬聲）
+    subprocess.run(
+        [str(Path(__file__).parent / "prep_scenes.sh"), name, "--no-clarity"],
+        check=True,
+    )
     print(f"新劇本：{clone_script}（網頁用 ?script={clone_script.stem}）")
     return 0
 

@@ -49,6 +49,12 @@ uv run --python 3.12 scripts/clone_voice.py assets/scripts/missing-duck.json --o
 ### 自我檢查
 每句合成後會用 Whisper 聽寫，跟劇本逐字比對。F5-TTS 偶爾會漏字（"Mia! Mia!" 只唸一次、"Ben!" 不見）或在句首冒出氣音雜訊（"It was" 被聽成 "Shit was"），這時換一個亂數種子重合成，最多 5 次（`--attempts`），保留最接近劇本的一次。仍不一致的句子列在 `assets/audio/voice/missing-duck-clone/clone_report.md`，可以再跑一次或接受。
 
+### 降低電音感
+合成語音聽起來偏金屬、有電音時，常見原因與目前的對策：
+- 參考音檔若是清晰化過的（EQ 補了高頻），F5-TTS 會把加強的高頻當成音色。現在參考一律從原始錄音切出，只調響度。
+- 合成結果再做清晰化會放大聲碼器的金屬聲。現在合成語音只調響度（`prep_scenes.sh <名稱> --no-clarity`）。
+- 取樣步數預設 64（`--nfe`），比 32 細，合成時間約加倍。
+
 ### 存檔
 合成結果放在 `assets/audio/voice/missing-duck-clone/raw/scene<N>.flac`（無損壓縮，四場約 5 MB），新劇本是 `assets/scripts/missing-duck-clone.json`，兩者都進版控：
 
