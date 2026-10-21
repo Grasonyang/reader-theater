@@ -1,0 +1,11 @@
+# worktree（每個改動一個，見 docs/agents/delivery.md）
+.claude/worktrees/
+.claude/settings.local.json
+
+# 機密
+.env
+.env.*
+!.env.example
+
+# 雜項
+.DS_Store
