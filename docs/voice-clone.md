@@ -17,17 +17,18 @@
 在劇本的 `characters[].voice` 設定每個角色（單位都是半音，沒設定就不變）：
 
 ```json
-{ "id": "coach-lee", "name": "Coach Lee", "voice": { "pitch": -3, "formant": -1.5 } }
+{ "id": "coach-lee", "name": "Coach Lee", "voice": { "pitch": -3, "formant": -1.5, "tempo": 0.9 } }
 ```
 
 - `pitch`：音高。+12 是高八度。
 - `formant`：共振峰，決定聽起來像大人或小孩、男或女。只升音高不動共振峰會像用假音；兩者一起大幅上升會像花栗鼠。經驗值：共振峰約為音高的一半。
+- `tempo`：語速倍率，1.1 是快 10%，不改音高。用節奏區分角色（緊張的人快、威嚴的人慢）。
 
 ```bash
 uv run scripts/role_voices.py assets/scripts/missing-duck.json
 ```
 
-長度不變，所以逐字時間戳沿用原本的。
+`tempo` 不是 1 時，逐字時間戳依倍率縮放後另存；其餘沿用原本的。
 
 ## B. 複製聲音（DGX Spark）
 

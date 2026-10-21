@@ -15,7 +15,8 @@
       "body": "F",
       "voice": {
         "pitch": 7,
-        "formant": 3
+        "formant": 3,
+        "tempo": 1.05
       }
     },
     {
@@ -25,7 +26,8 @@
       "body": "M",
       "voice": {
         "pitch": 4,
-        "formant": 2
+        "formant": 2,
+        "tempo": 1.12
       }
     },
     {
@@ -35,7 +37,8 @@
       "body": "M",
       "voice": {
         "pitch": -3,
-        "formant": -1.5
+        "formant": -1.5,
+        "tempo": 0.9
       }
     },
     {
@@ -45,7 +48,8 @@
       "body": "M",
       "voice": {
         "pitch": 9,
-        "formant": 4.5
+        "formant": 4.5,
+        "tempo": 0.95
       }
     },
     {

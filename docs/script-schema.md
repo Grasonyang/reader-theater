@@ -15,7 +15,7 @@ Script
 │  ├─ name          顯示名稱
 │  ├─ avatar        GLB 路徑（相對於 public/）
 │  ├─ body          "F" 或 "M"，TalkingHead 的體型
-│  └─ voice         變聲設定，可省略：{ pitch, formant }，單位半音（見 docs/voice-clone.md）
+│  └─ voice         變聲設定，可省略：{ pitch, formant, tempo }，前兩者單位半音、tempo 是語速倍率（見 docs/voice-clone.md）
 └─ scenes[]         場次，依序演出
    ├─ id            場次代號，例如 "s1"
    ├─ title         場次名稱

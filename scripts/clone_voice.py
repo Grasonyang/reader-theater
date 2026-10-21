@@ -97,7 +97,8 @@ def pick_references(script: dict) -> dict[str, dict]:
                 continue
             stamps = json.loads(Path(line["timestamps"]).read_text(encoding="utf-8"))
             dur = stamps["duration"]
-            if not REF_MIN_S <= dur <= REF_MAX_S:
+            # 剪接過的句子（去掉重複字）不當參考：原始錄音切出來會跟參考文字對不上
+            if not REF_MIN_S <= dur <= REF_MAX_S or stamps.get("removed"):
                 continue
             key = (-len(stamps.get("issues", [])), dur)
             if line["speaker"] not in best or key > best[line["speaker"]][0]:

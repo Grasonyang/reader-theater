@@ -135,37 +135,145 @@ def load_for_whisper(path: Path):
     return np.frombuffer(proc.stdout, dtype=np.float32)
 
 
+# 語音分段：先估背景噪音（短時能量的低百分位），比它高 SPEECH_ABOVE_FLOOR_DB 才算有聲。
+# 用相對門檻，因為清晰化會把停頓的音量一起拉高，固定的 -40 dB 會找不到任何停頓
+FRAME_S = 0.02
+SPEECH_ABOVE_FLOOR_DB = 10.0
+MIN_PAUSE_S = 0.3
+MIN_CHUNK_S = 0.15
+CHUNK_PAD_S = 0.1
+# 聽寫的窗：只在長停頓切開（通常是句與句之間、重唸前的停頓），讓 Whisper 有足夠上下文；
+# 太短的段單獨聽寫容易聽錯（"trophy in the glass case" 變成 "Trust me is let's kiss"）
+WINDOW_PAUSE_S = 0.8
+# 段內字與字的停頓超過這個長度也切開
+WORD_GAP_S = 0.35
+WINDOW_MAX_S = 20.0
+
+
+def speech_chunks(audio, sr: int = 16000) -> list[tuple[float, float]]:
+    """以停頓切出有聲段（秒）。"""
+    import numpy as np
+
+    hop = int(FRAME_S * sr)
+    n = len(audio) // hop
+    if n == 0:
+        return []
+    frames = audio[: n * hop].reshape(n, hop)
+    db = 10 * np.log10(np.mean(frames**2, axis=1) + 1e-12)
+    floor = np.percentile(db, 10)
+    voiced = db > floor + SPEECH_ABOVE_FLOOR_DB
+    chunks: list[list[float]] = []
+    for i, v in enumerate(voiced):
+        if not v:
+            continue
+        t = i * FRAME_S
+        if chunks and t - chunks[-1][1] < MIN_PAUSE_S:
+            chunks[-1][1] = t + FRAME_S
+        else:
+            chunks.append([t, t + FRAME_S])
+    return [(a, b) for a, b in chunks if b - a >= MIN_CHUNK_S]
+
+
 def transcribe(path: Path, model_size: str, language: str) -> dict:
+    """分窗聽寫，輸出逐字時間戳與細分段。
+
+    整檔一次聽寫時，Whisper 會把重唸、卡住的字（"you should help, you should, oh, Sam,
+    you should have asked"）併成一次，切句時就看不出重複。改成在長停頓處分窗、每窗
+    分開聽寫，重唸會照實出現。align_lines.py 用較細的段（0.3 秒停頓）當對齊單位，
+    每個字依時間歸到它所在的段。
+    """
     from faster_whisper import WhisperModel
 
     model = WhisperModel(model_size, device="cpu", compute_type="int8")
-    # vad_filter 跳過靜音段、condition_on_previous_text=False 不拿前文當提示，
-    # 兩者都是為了避免長段停頓後出現重複或憑空捏造的句子
-    segments, info = model.transcribe(
-        load_for_whisper(path),
-        language=language,
-        word_timestamps=True,
-        vad_filter=True,
-        condition_on_previous_text=False,
-    )
+    audio = load_for_whisper(path)
+    sr = 16000
+    pieces = speech_chunks(audio, sr)
+
+    windows: list[list[float]] = []
+    for a, b in pieces:
+        if (
+            windows
+            and a - windows[-1][1] < WINDOW_PAUSE_S
+            and b - windows[-1][0] <= WINDOW_MAX_S
+        ):
+            windows[-1][1] = b
+        else:
+            windows.append([a, b])
+
     words = []
-    texts = []
-    for seg in segments:
-        texts.append(seg.text.strip())
-        for w in seg.words or []:
-            words.append(
-                {
-                    "word": w.word.strip(),
-                    "start": round(w.start, 3),
-                    "end": round(w.end, 3),
-                    "probability": round(w.probability, 3),
-                }
-            )
+    for a, b in windows:
+        lo = max(0.0, a - CHUNK_PAD_S)
+        hi = min(len(audio) / sr, b + CHUNK_PAD_S)
+        segments, _ = model.transcribe(
+            audio[int(lo * sr) : int(hi * sr)],
+            language=language,
+            word_timestamps=True,
+            vad_filter=False,
+            condition_on_previous_text=False,
+        )
+        for seg in segments:
+            # 太像靜音的段落常是 Whisper 捏造的（例如呼吸聲變成 "Thank you."）
+            if seg.no_speech_prob > 0.6 and seg.avg_logprob < -1.0:
+                continue
+            for w in seg.words or []:
+                words.append(
+                    {
+                        "word": w.word.strip(),
+                        "start": round(lo + w.start, 3),
+                        "end": round(lo + w.end, 3),
+                        "probability": round(w.probability, 3),
+                    }
+                )
+
+    # 每個字歸到它所在（或最近）的細分段
+    chunks = [
+        {"start": round(a, 3), "end": round(b, 3), "words": []} for a, b in pieces
+    ]
+    for k, w in enumerate(words):
+        # 用字尾時間：Whisper 的字首常黏在前一個字的結尾，字尾比較準
+        mid = w["end"] - 0.05
+        best = min(
+            range(len(chunks)),
+            key=lambda c: (
+                0.0
+                if chunks[c]["start"] <= mid <= chunks[c]["end"]
+                else min(abs(mid - chunks[c]["start"]), abs(mid - chunks[c]["end"]))
+            ),
+        )
+        chunks[best]["words"].append(k)
+    # 段內再依句尾標點（. ? !）與字間停頓細分：兩句之間停頓太短時，仍能分給不同台詞
+    out_chunks = []
+    for c in chunks:
+        if not c["words"]:
+            continue
+        ks = sorted(c["words"])
+        start, first = c["start"], ks[0]
+        for k in ks:
+            ends_sentence = words[k]["word"].rstrip("\"'").endswith((".", "?", "!"))
+            # Whisper 有時不標句號（"answer thank you"），字與字之間的停頓也當分界
+            gap = k < ks[-1] and words[k + 1]["start"] - words[k]["end"] >= WORD_GAP_S
+            if k == ks[-1] or ends_sentence or gap:
+                end = (
+                    c["end"]
+                    if k == ks[-1]
+                    else round((words[k]["end"] + words[k + 1]["start"]) / 2, 3)
+                )
+                out_chunks.append(
+                    {
+                        "start": start,
+                        "end": end,
+                        "first_word": first,
+                        "last_word": k,
+                        "text": " ".join(w["word"] for w in words[first : k + 1]),
+                    }
+                )
+                start, first = end, k + 1
     return {
-        "language": info.language,
-        "duration": round(info.duration, 3),
-        "text": " ".join(texts),
+        "language": language,
+        "duration": round(len(audio) / sr, 3),
+        "text": " ".join(w["word"] for w in words),
         "words": words,
+        "chunks": out_chunks,
     }
 
 
