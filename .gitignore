@@ -24,6 +24,6 @@ assets/audio/voice/**
 !assets/audio/voice/*/raw/
 !assets/audio/voice/*/raw/**
 
-# 由 role_voices.py、clone_voice.py 產生的劇本（指向不進版控的錄音）
+# 由 role_voices.py 產生的劇本（指向不進版控的 wav，幾秒就能重建）。
+# clone_voice.py 的 *-clone.json 要進版控：重建它需要 GPU 合成
 assets/scripts/*-voices.json
-assets/scripts/*-clone.json

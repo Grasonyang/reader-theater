@@ -37,6 +37,13 @@ scripts/prep_scenes.sh missing-duck
 echo "== 合成（F5-TTS）"
 uv run --python 3.12 scripts/clone_voice.py "$script"
 
-echo
-echo "完成。預覽：npm run dev 後開 http://localhost:5173/?script=missing-duck-clone"
-echo "算成影片：node scripts/record_scene.mjs missing-duck-clone -o missing-duck-clone.mp4"
+cat <<'MSG'
+
+完成。存進 git（合成結果約 5 MB，其他機器 pull 後跑 scripts/prep_scenes.sh missing-duck-clone 就能重建）：
+  git add assets/scripts/missing-duck-clone.json assets/audio/voice/missing-duck-clone/raw
+  git commit -m "feat: 加入複製聲音版的合成音訊"
+  git push
+
+預覽：npm run dev 後開 http://localhost:5173/?script=missing-duck-clone
+算成影片：node scripts/record_scene.mjs missing-duck-clone -o missing-duck-clone.mp4
+MSG

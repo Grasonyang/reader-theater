@@ -46,6 +46,17 @@ scripts/spark_clone.sh
 uv run --python 3.12 scripts/clone_voice.py assets/scripts/missing-duck.json --only s3-l22,s4-l36
 ```
 
+### 存檔
+合成結果放在 `assets/audio/voice/missing-duck-clone/raw/scene<N>.flac`（無損壓縮，四場約 5 MB），新劇本是 `assets/scripts/missing-duck-clone.json`，兩者都進版控：
+
+```bash
+git add assets/scripts/missing-duck-clone.json assets/audio/voice/missing-duck-clone/raw
+git commit -m "feat: 加入複製聲音版的合成音訊"
+git push
+```
+
+其他機器 `git pull` 後跑 `scripts/prep_scenes.sh missing-duck-clone` 就能重建每句音訊，不必再用 GPU 合成。處理後的 wav 不進版控。
+
 ### 參考音檔怎麼挑
 每個角色從自己已對齊的台詞挑一句：4 到 11 秒（F5-TTS 會截掉超過 12 秒的部分，截掉後參考文字就對不上）、念錯的字最少、最長。挑不到的角色用旁白的。所以你替各角色做的語氣差別，也會被複製到合成結果。
 

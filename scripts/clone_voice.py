@@ -17,10 +17,12 @@
     挑選條件：4 到 11 秒（F5-TTS 會把超過 12 秒的參考截短，截短後參考文字就對不上）、
     念錯的字越少越好、越長越好。挑不到的角色改用旁白（第一個角色）的參考。
 
-輸出：
-    <原音檔資料夾>/<suffix>/raw/<場次>.wav   每場合成結果接起來，句間停 0.8 秒
-    接著自動跑 prep_audio.py 與 align_lines.py，得到每句的 wav 與時間戳，
-    並寫出新劇本 <劇本名稱>-<suffix>.json。網頁用 ?script=<劇本名稱>-<suffix> 演出。
+輸出（<新名稱> = <劇本名稱>-<suffix>，例如 missing-duck-clone）：
+    assets/scripts/<新名稱>.json                     新劇本
+    assets/audio/voice/<新名稱>/raw/scene<N>.flac    每場合成結果接起來，句間停 0.8 秒
+    接著跑 scripts/prep_scenes.sh <新名稱>，得到每句的 wav 與時間戳。
+    新劇本與 raw/ 可以進版控，其他機器 git pull 後跑 prep_scenes.sh 就能重建，
+    不必再合成。網頁用 ?script=<新名稱> 演出。
 """
 
 from __future__ import annotations
@@ -107,8 +109,10 @@ def main() -> int:
     first_audio = next(
         ln["audio"] for s in script["scenes"] for ln in s["lines"] if "audio" in ln
     )
-    out_dir = Path(first_audio).parent.parent / args.suffix
-    raw_dir = out_dir / "raw"
+    # 跟原始錄音同一層：assets/audio/voice/<新名稱>/raw/，與 prep_scenes.sh 的慣例一致
+    name = f"{args.script.stem}-{args.suffix}"
+    out_dir = Path(first_audio).parents[2] / name
+    raw_dir = out_dir / ("trial" if only else "raw")
     raw_dir.mkdir(parents=True, exist_ok=True)
 
     tts = F5TTS(model=args.model, device=device)
@@ -140,7 +144,8 @@ def main() -> int:
                 continue
             pieces += [wav, np.zeros(int(GAP_S * sr), dtype=wav.dtype)]
         if pieces:
-            path = raw_dir / f"{scene['id']}.wav"
+            # 場次 s1 存成 scene1；用 FLAC 無損壓縮，檔案約為 wav 的一半，方便進版控
+            path = raw_dir / f"scene{scene['id'].removeprefix('s')}.flac"
             sf.write(path, np.concatenate(pieces), sr)
             produced.append(path)
     print(f"合成完成，共花 {time.time() - began:.0f} 秒")
@@ -149,7 +154,7 @@ def main() -> int:
         return 0
 
     # 合成結果當成一份新的錄音，走同一套清晰化、時間戳與對齊
-    clone_script = args.script.with_name(f"{args.script.stem}-{args.suffix}.json")
+    clone_script = args.script.with_name(f"{name}.json")
     for scene in script["scenes"]:
         for line in scene["lines"]:
             line.pop("audio", None)
@@ -157,19 +162,7 @@ def main() -> int:
     clone_script.write_text(
         json.dumps(script, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    here = Path(__file__).parent
-    for scene in script["scenes"]:
-        raw = raw_dir / f"{scene['id']}.wav"
-        prepped = out_dir / f"{scene['id']}.wav"
-        subprocess.run(
-            ["uv", "run", str(here / "prep_audio.py"), str(raw), "-o", str(prepped)],
-            check=True,
-        )
-        subprocess.run(
-            ["uv", "run", str(here / "align_lines.py"), str(clone_script), scene["id"], str(prepped),
-             "--out", str(out_dir / "lines"), "--report", str(out_dir / f"report_{scene['id']}.md")],
-            check=True,
-        )  # fmt: skip
+    subprocess.run([str(Path(__file__).parent / "prep_scenes.sh"), name], check=True)
     print(f"新劇本：{clone_script}（網頁用 ?script={clone_script.stem}）")
     return 0
 
