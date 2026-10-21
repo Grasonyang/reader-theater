@@ -20,6 +20,16 @@ body {
   text-align: center;
 }
 
+#speaker {
+  margin: 8px 0 0;
+  min-height: 1.2em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fbbc04;
+  text-shadow: 0 1px 3px #000;
+}
+
 #subtitles {
   min-height: 1.5em;
   font-size: 1.4rem;

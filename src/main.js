@@ -2,9 +2,16 @@ import { TalkingHead } from '@met4citizen/talkinghead';
 import { LipsyncEn } from '@met4citizen/talkinghead/modules/lipsync-en.mjs';
 import audioUrl from '../assets/audio/test/test_line.wav?url';
 import timestamps from '../assets/audio/test/test_line.json';
+import { loadScript, play, SYNC_WORD_INDEX as SCRIPT_SYNC_WORD_INDEX } from './script-player.js';
 
 const playButton = document.getElementById('play');
 const subtitles = document.getElementById('subtitles');
+const speaker = document.getElementById('speaker');
+
+// ?script=<名稱>[&scene=<場次 id>]：演 assets/scripts/<名稱>.json；沒給就播測試台詞
+const params = new URLSearchParams(location.search);
+const scriptName = params.get('script');
+const sceneId = params.get('scene');
 
 // 讓 Playwright 讀取進度
 window.theater = { ready: false, speaking: false, done: false, error: null };
@@ -37,6 +44,8 @@ async function main() {
     lipsyncLang: 'en',
   });
 
+  if (scriptName) return setupScript(head);
+
   const response = await fetch(audioUrl);
   const audio = await head.audioCtx.decodeAudioData(await response.arrayBuffer());
   const line = { audio, ...toSpeakAudioWords(timestamps) };
@@ -61,6 +70,44 @@ async function main() {
   playButton.textContent = '播放台詞';
   playButton.disabled = false;
   playButton.addEventListener('click', speak);
+  window.theater.ready = true;
+}
+
+async function setupScript(head) {
+  const show = await loadScript(head.audioCtx, scriptName, sceneId);
+  window.theater.lineSync = [];
+  window.theater.lines = show.items.map((it) => ({
+    id: it.line.id,
+    audio: it.line.audio,
+    syncWordStart: it.words[SCRIPT_SYNC_WORD_INDEX]?.start ?? null,
+  }));
+
+  const start = async () => {
+    playButton.hidden = true;
+    await head.audioCtx.resume();
+    window.theater.speaking = true;
+    window.theater.startedAt = Date.now();
+    play(head, show, {
+      onLine: (item) => {
+        speaker.textContent = item.speaker;
+        subtitles.textContent = '';
+      },
+      onWord: (index, n, word) => {
+        subtitles.textContent += word;
+        if (n === SCRIPT_SYNC_WORD_INDEX) window.theater.lineSync[index] = Date.now();
+      },
+      onDone: () => {
+        window.theater.speaking = false;
+        window.theater.done = true;
+        playButton.hidden = false;
+      },
+    });
+  };
+
+  document.title = `${show.title} – Reader Theater`;
+  playButton.textContent = '開始演出';
+  playButton.disabled = false;
+  playButton.addEventListener('click', start);
   window.theater.ready = true;
 }
 

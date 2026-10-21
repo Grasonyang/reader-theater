@@ -2,7 +2,7 @@
 
 一份劇本是一個 JSON 檔，描述角色、場次與每一句台詞的講者、情緒、手勢、鏡頭。網頁依序讀取台詞，把 `audio` 與 `timestamps` 交給 TalkingHead 的 `speakAudio` 對嘴，並在台詞開始前套用情緒、手勢與鏡頭。
 
-版本：`schema_version: 1`（草案，尚未有程式讀取）。
+版本：`schema_version: 1`。讀取端是 `src/script-player.js`；第一份實際劇本是 `assets/scripts/missing-duck.json`。
 
 ## 結構
 
@@ -47,8 +47,8 @@ Script
 | `scenes[].id`、`lines[].id` | 是 | 字串 | 全劇唯一；建議 `s<場>`、`s<場>-l<句>` |
 | `lines[].speaker` | 是 | 字串 | 必須是 `characters[].id` 之一 |
 | `lines[].text` | 是 | 字串 | 字幕與核對用；對嘴以 `timestamps` 為準 |
-| `lines[].audio` | 是 | 字串 | 48 kHz 單聲道 WAV，-16 LUFS |
-| `lines[].timestamps` | 是 | 字串 | `prep_audio.py` 輸出的 JSON，時間單位是秒 |
+| `lines[].audio` | 是 | 字串 | 48 kHz 單聲道 WAV，-16 LUFS。通常由 `scripts/align_lines.py` 從整場錄音切出並寫入 |
+| `lines[].timestamps` | 是 | 字串 | 逐字時間戳 JSON，時間單位是秒；`align_lines.py` 輸出的版本字用劇本原文、時間用實際錄音 |
 | `lines[].emotion` | 否 | 列舉 | 預設 `"neutral"` |
 | `lines[].gesture` | 否 | 物件 | 省略代表不做手勢 |
 | `lines[].camera` | 否 | 物件 | 省略代表沿用上一句；第一句省略時用 `"upper"` |
