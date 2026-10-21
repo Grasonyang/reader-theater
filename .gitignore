@@ -9,3 +9,10 @@
 
 # 雜項
 .DS_Store
+
+# 前端
+node_modules/
+dist/
+
+# 第三方角色（CC BY-NC 4.0，不進版控，用 scripts/fetch_avatar.sh 下載）
+public/avatars/*.glb
