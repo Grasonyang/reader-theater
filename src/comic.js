@@ -16,7 +16,7 @@ const FADE_MS = 600;
 const TITLE_MS = 1800;
 const INTRO_S = 5.0;
 const OUTRO_S = 6.0;
-const AUTO_TIMING = { firstLineAt: INTRO_S, lineGap: 0.9, sceneGap: 3.5 };
+const AUTO_TIMING = { firstLineAt: INTRO_S, lineGap: 1.0, sceneGap: 4.0 };
 const SHOUT = new Set(['fear', 'angry']);
 const DEFAULT_SCRIPT = 'missing-duck-voices';
 
@@ -216,7 +216,8 @@ async function main() {
     intro.classList.remove('hidden');
     hint.classList.add('hidden');
     window.theater.speaking = false;
-    window.theater.done = true;
+    // 自動模式由 startAuto 在片尾卡顯示完才標記 done（錄影要錄到片尾）
+    if (!autoMode) window.theater.done = true;
   };
 
   // 動畫迴圈：亮度、縮放、彈動、背景淡入、標題
