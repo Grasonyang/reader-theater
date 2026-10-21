@@ -6,7 +6,11 @@
       "id": "narrator",
       "name": "Narrator",
       "avatar": "avatars/brunette.glb",
-      "body": "F"
+      "body": "F",
+      "look": {
+        "top": "#2b2b33",
+        "bottom": "#1c1c22"
+      }
     },
     {
       "id": "mia",
@@ -17,6 +21,11 @@
         "pitch": 7,
         "formant": 3,
         "tempo": 1.05
+      },
+      "look": {
+        "top": "#c0392b",
+        "bottom": "#2c3e50",
+        "hair": "#4a2c1a"
       }
     },
     {
@@ -28,6 +37,12 @@
         "pitch": 4,
         "formant": 2,
         "tempo": 1.12
+      },
+      "look": {
+        "top": "#2e8b57",
+        "bottom": "#3b3b3b",
+        "hair": "#c8a24a",
+        "glasses": false
       }
     },
     {
@@ -39,6 +54,13 @@
         "pitch": -3,
         "formant": -1.5,
         "tempo": 0.9
+      },
+      "look": {
+        "top": "#1f3a93",
+        "bottom": "#1f3a93",
+        "hair": "#222222",
+        "glasses": false,
+        "scale": 1.06
       }
     },
     {
@@ -50,6 +72,13 @@
         "pitch": 9,
         "formant": 4.5,
         "tempo": 0.95
+      },
+      "look": {
+        "top": "#f1c40f",
+        "bottom": "#5d6d7e",
+        "hair": "#6b4423",
+        "glasses": false,
+        "scale": 0.78
       }
     },
     {

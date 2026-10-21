@@ -53,27 +53,44 @@ export async function loadScript(audioCtx, name, sceneId) {
   return { title: script.title, items, end: at };
 }
 
-// 演出。onLine(item) 在每句開始時呼叫，onWord(index, word) 在每個字出現時呼叫
-export function play(head, show, { onLine, onWord, onDone }) {
+// 演出。cast 是角色 id → TalkingHead 實例；director 是 stage.js 的鏡頭與燈光（可省略）。
+// 講者是 "all" 時，第一個角色放出聲音，其他人用等長的靜音一起對嘴。
+// onLine(item) 在每句開始時呼叫，onWord(index, n, word) 在每個字出現時呼叫
+export function play(cast, director, show, { onLine, onWord, onDone }) {
+  const everyone = [...cast.values()];
   for (const [index, item] of show.items.entries()) {
     setTimeout(() => {
       const { line } = item;
-      head.setMood(line.emotion ?? 'neutral');
-      head.setView(item.camera);
+      const speakers = line.speaker === 'all' ? everyone : [cast.get(line.speaker) ?? everyone[0]];
+      director?.shot(item.camera, line.speaker);
+      director?.light(line.speaker);
       onLine?.(item, index);
-      let spoken = 0;
-      head.speakAudio(
-        {
-          audio: item.audio,
-          words: item.words.map((w) => w.word),
-          wtimes: item.words.map((w) => Math.round(w.start * 1000)),
-          wdurations: item.words.map((w) => Math.round((w.end - w.start) * 1000)),
-        },
-        { lipsyncLang: 'en' },
-        (word) => onWord?.(index, spoken++, word),
-      );
-      const g = line.gesture;
-      if (g) setTimeout(() => head.playGesture(g.name, g.duration ?? 2, g.mirror ?? false), (g.at ?? 0) * 1000);
+      const lipsync = {
+        words: item.words.map((w) => w.word),
+        wtimes: item.words.map((w) => Math.round(w.start * 1000)),
+        wdurations: item.words.map((w) => Math.round((w.end - w.start) * 1000)),
+      };
+      speakers.forEach((head, k) => {
+        head.setMood(line.emotion ?? 'neutral');
+        if (!director) head.setView(item.camera);
+        const audio =
+          k === 0
+            ? item.audio
+            : head.audioCtx.createBuffer(1, item.audio.length, item.audio.sampleRate);
+        let spoken = 0;
+        head.speakAudio(
+          { audio, ...lipsync },
+          { lipsyncLang: 'en' },
+          k === 0 ? (word) => onWord?.(index, spoken++, word) : null,
+        );
+        const g = line.gesture;
+        if (g) {
+          setTimeout(
+            () => head.playGesture(g.name, g.duration ?? 2, g.mirror ?? false),
+            (g.at ?? 0) * 1000,
+          );
+        }
+      });
     }, item.at * 1000);
   }
   setTimeout(() => onDone?.(), show.end * 1000);

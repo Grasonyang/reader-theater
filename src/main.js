@@ -3,10 +3,13 @@ import { LipsyncEn } from '@met4citizen/talkinghead/modules/lipsync-en.mjs';
 import audioUrl from '../assets/audio/test/test_line.wav?url';
 import timestamps from '../assets/audio/test/test_line.json';
 import { loadScript, play, SYNC_WORD_INDEX as SCRIPT_SYNC_WORD_INDEX } from './script-player.js';
+import { blocking, buildStage, dress, place } from './stage.js';
 
 const playButton = document.getElementById('play');
 const subtitles = document.getElementById('subtitles');
 const speaker = document.getElementById('speaker');
+const sceneTitle = document.getElementById('scene-title');
+const avatarNode = document.getElementById('avatar');
 
 // ?script=<名稱>[&scene=<場次 id>]：演 assets/scripts/<名稱>.json；沒給就播測試台詞
 const params = new URLSearchParams(location.search);
@@ -30,7 +33,9 @@ function toSpeakAudioWords(json) {
 const SYNC_WORD_INDEX = 1;
 
 async function main() {
-  const head = new TalkingHead(document.getElementById('avatar'), {
+  if (scriptName) return setupScript();
+
+  const head = new TalkingHead(avatarNode, {
     // lipsync 模組改成自己 import：套件預設用相對路徑動態載入，經過 Vite 打包會找不到
     lipsyncModules: [],
     cameraView: 'upper',
@@ -43,8 +48,6 @@ async function main() {
     avatarMood: 'neutral',
     lipsyncLang: 'en',
   });
-
-  if (scriptName) return setupScript(head);
 
   const response = await fetch(audioUrl);
   const audio = await head.audioCtx.decodeAudioData(await response.arrayBuffer());
@@ -73,8 +76,57 @@ async function main() {
   window.theater.ready = true;
 }
 
-async function setupScript(head) {
-  const show = await loadScript(head.audioCtx, scriptName, sceneId);
+// 劇本模式：舞台上每個角色一個 TalkingHead。第一個角色（旁白）是主實例，持有 Three.js
+// 場景、鏡頭與渲染器；其他角色用 avatarOnly 模式加進同一個場景，由主實例的 update 驅動
+async function setupScript() {
+  const res = await fetch(`/assets/scripts/${scriptName}.json`);
+  if (!res.ok) throw new Error(`讀不到劇本 ${scriptName}（${res.status}）`);
+  const script = await res.json();
+  const roles = script.characters.filter((c) => c.id !== 'all');
+  const spots = blocking(script.characters);
+
+  const cast = new Map();
+  const others = [];
+  let director = null;
+  const avatarFor = (c) => ({
+    url: `/${c.avatar}`,
+    body: c.body ?? 'F',
+    avatarMood: 'neutral',
+    lipsyncLang: 'en',
+  });
+
+  const host = new TalkingHead(avatarNode, {
+    lipsyncModules: [],
+    cameraView: 'full',
+    update: (dt) => {
+      for (const h of others) h.animate(dt);
+      director?.update(dt);
+    },
+  });
+  host.lipsync.en = new LipsyncEn();
+  await host.showAvatar(avatarFor(roles[0]));
+  cast.set(roles[0].id, host);
+
+  for (const c of roles.slice(1)) {
+    const h = new TalkingHead(avatarNode, {
+      lipsyncModules: [],
+      avatarOnly: true,
+      avatarOnlyScene: host.scene,
+      avatarOnlyCamera: host.camera,
+    });
+    h.lipsync.en = new LipsyncEn();
+    await h.showAvatar(avatarFor(c));
+    cast.set(c.id, h);
+    others.push(h);
+  }
+  for (const c of roles) {
+    dress(cast.get(c.id), c.look);
+    place(cast.get(c.id), spots[c.id]);
+  }
+  director = buildStage(host, spots);
+  director.shot('full');
+
+  const show = await loadScript(host.audioCtx, scriptName, sceneId);
   window.theater.lineSync = [];
   window.theater.lines = show.items.map((it) => ({
     id: it.line.id,
@@ -82,13 +134,24 @@ async function setupScript(head) {
     syncWordStart: it.words[SCRIPT_SYNC_WORD_INDEX]?.start ?? null,
   }));
 
+  let currentScene = null;
+  const showSceneTitle = (scene) => {
+    sceneTitle.textContent = `Scene ${scene.id.replace(/^s/, '')} · ${scene.title}`;
+    sceneTitle.classList.add('visible');
+    setTimeout(() => sceneTitle.classList.remove('visible'), 2500);
+  };
+
   const start = async () => {
     playButton.hidden = true;
-    await head.audioCtx.resume();
+    await Promise.all([...cast.values()].map((h) => h.audioCtx.resume()));
     window.theater.speaking = true;
     window.theater.startedAt = Date.now();
-    play(head, show, {
+    play(cast, director, show, {
       onLine: (item) => {
+        if (item.scene !== currentScene) {
+          currentScene = item.scene;
+          showSceneTitle(item.scene);
+        }
         speaker.textContent = item.speaker;
         subtitles.textContent = '';
       },
@@ -99,6 +162,8 @@ async function setupScript(head) {
       onDone: () => {
         window.theater.speaking = false;
         window.theater.done = true;
+        director.shot('full');
+        director.light('all');
         playButton.hidden = false;
       },
     });
