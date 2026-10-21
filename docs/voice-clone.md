@@ -32,13 +32,12 @@ uv run scripts/role_voices.py assets/scripts/missing-duck.json
 ## B. 複製聲音（DGX Spark）
 
 ### 準備
-1. 取得程式：`git clone` 本 repo 並切到開發分支，或在既有目錄 `git pull`。
+1. 取得程式：`git clone` 本 repo 並切到開發分支，或在既有目錄 `git pull`。原始錄音已在 `assets/audio/voice/missing-duck/raw/`。
 2. 需要 `ffmpeg`、`uv`（`curl -LsSf https://astral.sh/uv/install.sh | sh`）。
-3. 把四個場次的錄音放在同一個資料夾，命名 `scene1.m4a` 到 `scene4.m4a`。
 
 ### 執行
 ```bash
-scripts/spark_clone.sh ~/recordings
+scripts/spark_clone.sh
 ```
 
 它會先確認 PyTorch 看得到 GPU，接著清晰化、對齊你的錄音（產生參考音檔），再合成整齣並對齊成 `assets/scripts/missing-duck-clone.json`。只想試一兩句：

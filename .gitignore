@@ -17,8 +17,12 @@ dist/
 # 第三方角色（CC BY-NC 4.0，不進版控，用 scripts/fetch_avatar.sh 下載）
 public/avatars/*.glb
 
-# 使用者自己的錄音（個人聲音，不進版控）
-assets/audio/voice/
+# 使用者的錄音：只收各劇本的原始錄音（<劇本>/raw/），處理後的 wav 可由
+# scripts/prep_scenes.sh 重建，不進版控
+assets/audio/voice/**
+!assets/audio/voice/*/
+!assets/audio/voice/*/raw/
+!assets/audio/voice/*/raw/**
 
 # 由 role_voices.py、clone_voice.py 產生的劇本（指向不進版控的錄音）
 assets/scripts/*-voices.json

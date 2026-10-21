@@ -7,7 +7,8 @@
 ```bash
 npm ci
 scripts/fetch_avatar.sh          # 下載範例角色（CC BY-NC 4.0）
-npm run dev                      # 開 http://localhost:5173，按「播放台詞」
+scripts/prep_scenes.sh           # 從原始錄音重建台詞音訊（需要 uv、ffmpeg）
+npm run dev                      # 開 http://localhost:5173，按「播放台詞」；?script=missing-duck 演整齣
 ```
 
 | 指令 | 用途 |
@@ -18,7 +19,8 @@ npm run dev                      # 開 http://localhost:5173，按「播放台�
 | `node scripts/record_scene.mjs <劇本名稱> [場次] -o <輸出.mp4>` | 逐格算圖整場或整齣演出 |
 
 | `uv run scripts/role_voices.py <劇本.json>` | 一人分飾多角：依角色設定變聲，輸出 `<名稱>-voices.json` |
-| `scripts/spark_clone.sh <錄音資料夾>` | 在 GPU 機器上用 F5-TTS 複製你的聲音，輸出 `<名稱>-clone.json`（見 docs/voice-clone.md） |
+| `scripts/prep_scenes.sh [劇本名稱]` | 從 repo 裡的原始錄音重建每句音訊與時間戳（clone 後跑一次，網頁才能演） |
+| `scripts/spark_clone.sh` | 在 GPU 機器上用 F5-TTS 複製你的聲音，輸出 `<名稱>-clone.json`（見 docs/voice-clone.md） |
 
 網頁加 `?script=<名稱>&scene=<場次>` 會演 `assets/scripts/<名稱>.json`（例：`?script=missing-duck&scene=s1`）。
 
