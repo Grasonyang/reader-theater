@@ -2,6 +2,7 @@
 # requires-python = ">=3.10,<3.14"
 # dependencies = [
 #     "f5-tts>=1.1",
+#     "faster-whisper>=1.1",
 #     "soundfile",
 # ]
 # ///
@@ -11,6 +12,11 @@
 
 用法：
     uv run scripts/clone_voice.py <已對齊的劇本.json> [--suffix clone] [--only 台詞id,...]
+
+自我檢查：
+    每句合成後用 Whisper 聽寫，跟劇本逐字比對。F5-TTS 偶爾會漏字（"Mia! Mia!" 只唸一次）
+    或在句首冒出氣音雜訊（"It was" 被聽成 "Shit was"），不一致就換一個亂數種子重合成，
+    最多 --attempts 次，保留最接近劇本的一次。仍不一致的句子列在 clone_report.md。
 
 參考音檔：
     每個角色從自己已對齊的台詞裡挑一句當參考，這樣你替每個角色做的語氣也會被複製。
@@ -37,6 +43,49 @@ from pathlib import Path
 REF_MIN_S, REF_MAX_S = 4.0, 11.0
 GAP_S = 0.8
 SEED = 1234
+VERIFY_MODEL = "large-v3-turbo"
+
+# 與 align_lines.py 用同一套字詞正規化
+sys.path.insert(0, str(Path(__file__).parent))
+from align_lines import norm
+
+
+def tokens(text: str) -> list[str]:
+    return [t for t in (norm(w) for w in text.split()) if t]
+
+
+class Verifier:
+    """用 Whisper 聽寫合成結果，跟劇本逐字比對。"""
+
+    def __init__(self, sample_rate: int):
+        import ctranslate2
+        from faster_whisper import WhisperModel
+
+        cuda = ctranslate2.get_cuda_device_count() > 0
+        self.model = WhisperModel(
+            VERIFY_MODEL,
+            device="cuda" if cuda else "cpu",
+            compute_type="int8_float16" if cuda else "int8",
+        )
+        self.sample_rate = sample_rate
+
+    def check(self, wav, text: str) -> tuple[float, str]:
+        """回傳（與劇本的相似度，聽到的文字）；1.0 代表逐字相同。"""
+        import difflib
+
+        import librosa
+        import numpy as np
+
+        audio = librosa.resample(
+            np.asarray(wav, dtype=np.float32), orig_sr=self.sample_rate, target_sr=16000
+        )
+        segments, _ = self.model.transcribe(
+            audio, language="en", vad_filter=True, condition_on_previous_text=False
+        )
+        heard = " ".join(seg.text.strip() for seg in segments)
+        want, got = tokens(text), tokens(heard)
+        ratio = 1.0 if want == got else difflib.SequenceMatcher(None, want, got).ratio()
+        return ratio, heard
 
 
 def pick_references(script: dict) -> dict[str, dict]:
@@ -86,6 +135,12 @@ def main() -> int:
     parser.add_argument(
         "--nfe", type=int, default=32, help="取樣步數，越大越細但越慢（預設 32）"
     )
+    parser.add_argument(
+        "--attempts",
+        type=int,
+        default=5,
+        help="聽寫跟劇本不一致時，最多合成幾次（預設 5；1 代表不重試）",
+    )
     args = parser.parse_args()
 
     import numpy as np
@@ -117,8 +172,10 @@ def main() -> int:
 
     tts = F5TTS(model=args.model, device=device)
     sr = tts.target_sample_rate
+    verifier = Verifier(sr)
     began = time.time()
     produced = []
+    imperfect = []
     for scene in script["scenes"]:
         pieces = []
         for line in scene["lines"]:
@@ -126,18 +183,32 @@ def main() -> int:
                 continue
             ref = refs[line["speaker"]]
             t = time.time()
-            wav, _, _ = tts.infer(
-                ref_file=ref["audio"],
-                ref_text=ref["text"],
-                gen_text=line["text"],
-                nfe_step=args.nfe,
-                seed=SEED,
-                show_info=lambda *a, **k: None,
-                progress=None,
-            )
+            best = None
+            for attempt in range(max(1, args.attempts)):
+                wav, _, _ = tts.infer(
+                    ref_file=ref["audio"],
+                    ref_text=ref["text"],
+                    gen_text=line["text"],
+                    nfe_step=args.nfe,
+                    seed=SEED + attempt,
+                    show_info=lambda *a, **k: None,
+                    progress=None,
+                )
+                score, heard = verifier.check(wav, line["text"])
+                if best is None or score > best[0]:
+                    best = (score, heard, wav, attempt + 1)
+                if score == 1.0:
+                    break
+            score, heard, wav, tries = best
+            mark = "OK" if score == 1.0 else f"相似度 {score:.2f}，聽到：{heard}"
             print(
-                f"{line['id']}（{line['speaker']}）{len(wav) / sr:.1f} 秒，花 {time.time() - t:.1f} 秒"
+                f"{line['id']}（{line['speaker']}）{len(wav) / sr:.1f} 秒，"
+                f"第 {tries} 次，花 {time.time() - t:.1f} 秒：{mark}"
             )
+            if score < 1.0:
+                imperfect.append(
+                    f"- **{line['id']}**：{line['text']} → 聽到：{heard}（相似度 {score:.2f}）"
+                )
             if only:
                 sf.write(raw_dir / f"{line['id']}.wav", wav, sr)
                 produced.append(raw_dir / f"{line['id']}.wav")
@@ -149,6 +220,14 @@ def main() -> int:
             sf.write(path, np.concatenate(pieces), sr)
             produced.append(path)
     print(f"合成完成，共花 {time.time() - began:.0f} 秒")
+    report = out_dir / "clone_report.md"
+    report.write_text(
+        "# 合成檢查\n\n"
+        + ("\n".join(imperfect) if imperfect else "全部台詞的聽寫都與劇本一致。")
+        + "\n",
+        encoding="utf-8",
+    )
+    print(f"{len(imperfect)} 句與劇本不完全一致，見 {report}")
     if only:
         print("試跑輸出：" + "、".join(map(str, produced)))
         return 0

@@ -46,6 +46,9 @@ scripts/spark_clone.sh
 uv run --python 3.12 scripts/clone_voice.py assets/scripts/missing-duck.json --only s3-l22,s4-l36
 ```
 
+### 自我檢查
+每句合成後會用 Whisper 聽寫，跟劇本逐字比對。F5-TTS 偶爾會漏字（"Mia! Mia!" 只唸一次、"Ben!" 不見）或在句首冒出氣音雜訊（"It was" 被聽成 "Shit was"），這時換一個亂數種子重合成，最多 5 次（`--attempts`），保留最接近劇本的一次。仍不一致的句子列在 `assets/audio/voice/missing-duck-clone/clone_report.md`，可以再跑一次或接受。
+
 ### 存檔
 合成結果放在 `assets/audio/voice/missing-duck-clone/raw/scene<N>.flac`（無損壓縮，四場約 5 MB），新劇本是 `assets/scripts/missing-duck-clone.json`，兩者都進版控：
 

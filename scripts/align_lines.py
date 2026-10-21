@@ -145,8 +145,13 @@ def locate(lines: list[list[str]], heard: list[str]) -> list[dict | None]:
     return result
 
 
-def word_times(n_tokens: int, pairs, words: list[dict]) -> list[tuple[float, float]]:
-    """每個劇本字的 (start, end)；沒對上的字用前後內插。"""
+def word_times(
+    n_tokens: int, pairs, words: list[dict], bounds: tuple[float, float]
+) -> list[tuple[float, float]]:
+    """每個劇本字的 (start, end)；沒對上的字用前後內插。
+
+    句首、句尾沒對上的字，分配到 bounds（這句的切點）與最近一個對上的字之間。
+    """
     times: list[tuple[float, float] | None] = [None] * n_tokens
     for a, b in pairs:
         if b is not None:
@@ -157,8 +162,8 @@ def word_times(n_tokens: int, pairs, words: list[dict]) -> list[tuple[float, flo
             continue
         prev = max((k for k in known if k < i), default=None)
         nxt = min((k for k in known if k > i), default=None)
-        t0 = times[prev][1] if prev is not None else times[nxt][0]
-        t1 = times[nxt][0] if nxt is not None else times[prev][1]
+        t0 = times[prev][1] if prev is not None else bounds[0]
+        t1 = times[nxt][0] if nxt is not None else bounds[1]
         # 同一段空隙裡的字平均分配
         gap_lo = prev if prev is not None else -1
         gap_hi = nxt if nxt is not None else n_tokens
@@ -166,6 +171,18 @@ def word_times(n_tokens: int, pairs, words: list[dict]) -> list[tuple[float, flo
         step = (t1 - t0) / total
         times[i] = (t0 + step * (k - 0.5), t0 + step * (k + 0.5))
     return times  # type: ignore[return-value]
+
+
+def silences(path: Path, min_len: float = 0.25) -> list[tuple[float, float]]:
+    """整場錄音裡的靜音段（秒）。"""
+    proc = subprocess.run(
+        ["ffmpeg", "-hide_banner", "-nostdin", "-i", str(path),
+         "-af", f"silencedetect=n=-40dB:d={min_len}", "-f", "null", "-"],
+        capture_output=True, text=True, check=True,
+    )  # fmt: skip
+    starts = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", proc.stderr)]
+    ends = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", proc.stderr)]
+    return list(zip(starts, ends))
 
 
 def cut(src: Path, dst: Path, start: float, end: float) -> None:
@@ -204,25 +221,37 @@ def main() -> int:
     tokens = [[norm(w) for w in d] for d in display]
     hits = locate(tokens, heard)
 
-    # 每句的切點：前後留一點空間，但不超過與鄰句之間的中點
+    # 每句的切點：前後留一點空間，但不超過與鄰句之間的中點。
+    # 句首（句尾）有字沒對上時，那個字可能還在空隙裡，改切在空隙中最靠近鄰句的靜音
+    quiet = silences(args.audio)
     spans = []
     for i, hit in enumerate(hits):
         if not hit:
             spans.append(None)
             continue
-        start = words[hit["start"]]["start"] - PAD_BEFORE
-        end = words[hit["end"]]["end"] + PAD_AFTER
+        first, last = words[hit["start"]]["start"], words[hit["end"]]["end"]
         prev = next((h for h in reversed(hits[:i]) if h), None)
         nxt = next((h for h in hits[i + 1 :] if h), None)
-        if prev:
-            start = max(
-                start, (words[prev["end"]]["end"] + words[hit["start"]]["start"]) / 2
-            )
-        if nxt:
-            end = min(
-                end, (words[hit["end"]]["end"] + words[nxt["start"]]["start"]) / 2
-            )
-        spans.append((max(0.0, start), min(end, stamps["duration"])))
+        lo = words[prev["end"]]["end"] if prev else 0.0
+        hi = words[nxt["start"]]["start"] if nxt else stamps["duration"]
+        start, end = first - PAD_BEFORE, last + PAD_AFTER
+        if hit["pairs"][0][1] is None:
+            gaps = [q for q in quiet if q[0] >= lo and q[1] <= first]
+            start = (gaps[0][0] + gaps[0][1]) / 2 if gaps else lo
+        if hit["pairs"][-1][1] is None:
+            gaps = [q for q in quiet if q[0] >= last and q[1] <= hi]
+            end = (gaps[-1][0] + gaps[-1][1]) / 2 if gaps else hi
+        start = (
+            max(start, (lo + first) / 2)
+            if prev and hit["pairs"][0][1] is not None
+            else start
+        )
+        end = (
+            min(end, (last + hi) / 2)
+            if nxt and hit["pairs"][-1][1] is not None
+            else end
+        )
+        spans.append((max(0.0, start, lo), min(end, hi, stamps["duration"])))
 
     report = [f"## {scene['id']} {scene['title']}", ""]
     for ln, disp, toks, hit, span in zip(scene["lines"], display, tokens, hits, spans):
@@ -236,7 +265,9 @@ def main() -> int:
         start, end = span
         wav = out_dir / f"{ln['id']}.wav"
         cut(args.audio, wav, start, end)
-        times = word_times(len(toks), hit["pairs"], words)
+        times = word_times(
+            len(toks), hit["pairs"], words, (start + PAD_BEFORE, end - PAD_AFTER)
+        )
         issues = []
         for a, b in hit["pairs"]:
             if b is None:
