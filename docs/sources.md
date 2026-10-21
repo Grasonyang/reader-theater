@@ -12,7 +12,9 @@
 | 變聲版（A） | `assets/audio/voice/missing-duck/lines/voices/`、`assets/scripts/missing-duck-voices.json` | 否 | 先重建上一列，再 `uv run scripts/role_voices.py assets/scripts/missing-duck.json` |
 | 複製聲音版（B）合成原檔 | `assets/audio/voice/missing-duck-clone/raw/scene1~4.flac`、`assets/scripts/missing-duck-clone.json` | 是 | GPU 上 `scripts/spark_clone.sh`；每句音訊用 `scripts/prep_scenes.sh missing-duck-clone --no-clarity` 重建 |
 | 對齊報告（念錯、略過的重唸） | `assets/audio/voice/<名稱>/report_s<N>.md` | 否 | 跟著 `prep_scenes.sh` 產生 |
-| 角色模型 | `public/avatars/brunette.glb` | 否 | `scripts/fetch_avatar.sh`（CC BY-NC 4.0） |
+| 角色模型（3D） | `public/avatars/brunette.glb` | 否 | `scripts/fetch_avatar.sh`（CC BY-NC 4.0） |
+| 漫畫版背景（4 場） | `assets/art/backgrounds/s1~4.jpg` | 是 | AI 生成，原圖在 `assets/art/source/` |
+| 漫畫版角色（去背 PNG） | `assets/art/characters/<角色 id>.png` | 是 | 由 `assets/art/source/characters-sheet.webp` 經 `scripts/cut_sheet.py` 切出 |
 | 測試台詞 | `assets/audio/test/` | 是 | 見該資料夾的 README |
 
 不進版控的檔案都能從進版控的檔案重建；clone 下來後先跑 `npm ci`、`scripts/fetch_avatar.sh`、`scripts/prep_scenes.sh missing-duck`。
@@ -61,6 +63,12 @@ for s in d['scenes']:
 ```
 
 `words` 的字是劇本原文、時間是實際錄音（秒，相對這句的開頭），網頁直接拿來對嘴與上字幕。
+
+## 漫畫版（2D，目前的主線）
+
+`comic.html` + `src/comic.js`：背景一張圖、角色站成一排，講者亮起並隨每個字微彈，其他人變暗；對話用漫畫氣泡（驚恐、生氣或驚嘆句用鋸齒框），旁白用黃色說明框，換場時交叉淡入新背景並顯示場次標題。角色位置與大小在劇本 `characters[].comic`（`image`、`x`、`height`），背景在 `backgrounds`。
+
+圖片的生成 prompt 記在 `docs/art-prompts.md`。要加嘴型，只要補一張同角色張嘴的表，切成 `<角色 id>-open.png`，再在 `comic.js` 依字的時間切換。
 
 ## Three.js 角色
 

@@ -47,6 +47,10 @@ TalkingHead README 提到的其他素材（Mixamo 動畫 `walking.fbx`、`dance.
 | 聲碼器 `charactr/vocos-mel-24khz` | MIT | |
 | PyTorch | BSD-3-Clause | |
 
+## AI 生成的圖片（`assets/art/`）
+
+背景四張與角色表一張由專案成員用 AI 生圖工具產生（2026-10-21），prompt 見 `docs/art-prompts.md`。使用條款依該生圖服務的規定，公開發布前請確認；目前只用於非商業的課程作品。
+
 ## 系統工具（不隨專案散布）
 
 | 工具 | 授權 | 備註 |

@@ -1,6 +1,6 @@
 // 把劇本的一場（或整齣）逐格算圖成影片。
 //
-// 用法：node scripts/record_scene.mjs <劇本名稱> [場次 id] [-o 輸出.mp4]
+// 用法：node scripts/record_scene.mjs <劇本名稱> [場次 id] [-o 輸出.mp4] [--page comic.html]
 //   例：node scripts/record_scene.mjs missing-duck s1 -o scene1.mp4
 // 劇本在 assets/scripts/<名稱>.json，台詞要先用 scripts/align_lines.py 對齊過。
 //
@@ -23,7 +23,7 @@ const SIZE = { width: 1280, height: 720 };
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,
-  options: { output: { type: 'string', short: 'o' } },
+  options: { output: { type: 'string', short: 'o' }, page: { type: 'string', default: '' } },
 });
 const [scriptName, sceneId] = positionals;
 if (!scriptName) {
@@ -34,7 +34,7 @@ const output = resolve(values.output ?? `${scriptName}${sceneId ? `-${sceneId}` 
 
 const server = await createServer({ server: { port: 5173, strictPort: false }, logLevel: 'error' });
 await server.listen();
-const query = new URLSearchParams({ script: scriptName, ...(sceneId ? { scene: sceneId } : {}) });
+const query = new URLSearchParams({ script: scriptName, mode: 'auto', ...(sceneId ? { scene: sceneId } : {}) });
 
 const frameDir = mkdtempSync(join(tmpdir(), 'scene-'));
 const browser = await chromium.launch({
@@ -50,7 +50,8 @@ try {
 
   // 用真實時間載入完才接管時間。不像 record_preview.mjs 在載入前接管：整齣要載入
   // 幾十個音檔，假時鐘在載入期間跟著跑，之後每張截圖都會慢到十幾秒以上。
-  await page.goto(`${server.resolvedUrls.local[0]}?${query}`);
+  // --page comic.html 可以改錄 2D 漫畫版
+  await page.goto(`${server.resolvedUrls.local[0]}${values.page}?${query}`);
   await page.waitForFunction(() => window.theater?.ready || window.theater?.error, null, { timeout: 300_000 });
   const loadError = await page.evaluate(() => window.theater.error);
   if (loadError) throw new Error(`頁面載入失敗：${loadError}`);

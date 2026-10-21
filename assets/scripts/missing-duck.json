@@ -26,6 +26,11 @@
         "top": "#c0392b",
         "bottom": "#2c3e50",
         "hair": "#4a2c1a"
+      },
+      "comic": {
+        "image": "assets/art/characters/mia.png",
+        "x": 0.16,
+        "height": 0.66
       }
     },
     {
@@ -43,6 +48,11 @@
         "bottom": "#3b3b3b",
         "hair": "#c8a24a",
         "glasses": false
+      },
+      "comic": {
+        "image": "assets/art/characters/ben.png",
+        "x": 0.39,
+        "height": 0.6
       }
     },
     {
@@ -61,6 +71,11 @@
         "hair": "#222222",
         "glasses": false,
         "scale": 1.06
+      },
+      "comic": {
+        "image": "assets/art/characters/coach-lee.png",
+        "x": 0.63,
+        "height": 0.58
       }
     },
     {
@@ -79,6 +94,11 @@
         "hair": "#6b4423",
         "glasses": false,
         "scale": 0.78
+      },
+      "comic": {
+        "image": "assets/art/characters/sam.png",
+        "x": 0.86,
+        "height": 0.48
       }
     },
     {
@@ -521,5 +541,11 @@
         }
       ]
     }
-  ]
+  ],
+  "backgrounds": {
+    "s1": "assets/art/backgrounds/s1.jpg",
+    "s2": "assets/art/backgrounds/s2.jpg",
+    "s3": "assets/art/backgrounds/s3.jpg",
+    "s4": "assets/art/backgrounds/s4.jpg"
+  }
 }

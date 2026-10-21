@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reader Theater – Comic</title>
+    <link rel="stylesheet" href="/src/comic.css" />
+  </head>
+  <body>
+    <div id="stage">
+      <div id="bg-a" class="bg"></div>
+      <div id="bg-b" class="bg"></div>
+      <div id="cast"></div>
+      <div id="caption" class="hidden"></div>
+      <div id="bubble" class="hidden"><span id="bubble-text"></span></div>
+      <div id="nametag" class="hidden"></div>
+      <div id="title-card" class="hidden"></div>
+      <div id="intro"></div>
+      <div id="hint" class="hidden"></div>
+    </div>
+    <div id="hud"><button id="play" disabled>載入中…</button></div>
+    <script type="module" src="/src/comic.js"></script>
+  </body>
+</html>

@@ -2,6 +2,12 @@
 
 英文劇場的虛擬劇場：3D 角色依台詞音訊對嘴。
 
+## 網站（漫畫版，點一句唸一句）
+
+https://grasonyang.github.io/reader-theater/ — 背景與角色是 AI 生成的美式漫畫風圖片，點畫面或按空白鍵唸下一句；加 `?mode=auto` 自動演完，`?scene=s2` 只演一場。3D 版在 `theater3d.html`。
+
+更新網站：`uv run scripts/build_site.py && scripts/deploy_pages.sh`（第一次要在 GitHub Settings → Pages 把來源設成 `gh-pages` 分支）。
+
 ## 快速開始
 
 ```bash
@@ -16,7 +22,9 @@ npm run dev                      # 開 http://localhost:5173，按「播放台�
 | `uv run scripts/prep_audio.py <音檔> -o <輸出.wav> [--denoise]` | 人聲清晰化（EQ、壓縮、去齒音）、-16 LUFS、48 kHz 單聲道，並產生逐字時間戳 JSON。錄音環境吵雜時加 `--denoise` |
 | `uv run scripts/align_lines.py <劇本.json> <場次> <整場.wav> --report <報告.md>` | 把整場錄音切成一句一句、對回劇本，寫回 audio／timestamps，並列出念錯、漏念 |
 | `npm run record` | 無頭瀏覽器逐格算圖，輸出 5 秒的 `preview.mp4` |
-| `node scripts/record_scene.mjs <劇本名稱> [場次] -o <輸出.mp4>` | 逐格算圖整場或整齣演出 |
+| `node scripts/record_scene.mjs <劇本名稱> [場次] -o <輸出.mp4> [--page comic.html]` | 逐格算圖整場或整齣演出；`--page comic.html` 錄漫畫版 |
+| `uv run scripts/cut_sheet.py <角色表圖> assets/art/characters <角色 id...>` | 綠幕角色表去背、切成一人一張 PNG |
+| `uv run scripts/build_site.py` / `scripts/deploy_pages.sh` | 打包靜態網站（音訊轉 mp3）並推到 gh-pages |
 
 | `uv run scripts/role_voices.py <劇本.json>` | 一人分飾多角：依角色設定變聲，輸出 `<名稱>-voices.json` |
 | `scripts/prep_scenes.sh [劇本名稱]` | 從 repo 裡的原始錄音重建每句音訊與時間戳（clone 後跑一次，網頁才能演） |

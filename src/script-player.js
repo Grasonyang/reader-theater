@@ -4,13 +4,13 @@
 // 不靠 TalkingHead 的語音佇列等上一句播完：佇列要等音訊的 onended，那是真實時間，
 // record_scene.mjs 逐格算圖時頁面的時間被凍住，兩者會對不上。
 
-const LINE_GAP_S = 0.6;
-const FIRST_LINE_AT_S = 0.8;
+const DEFAULT_TIMING = { firstLineAt: 2.2, lineGap: 0.6, sceneGap: 2.0 };
 // 與 record_scene.mjs 一致：第一個字的事件會延遲觸發，用第二個字對時
 export const SYNC_WORD_INDEX = 1;
 
-// 劇本裡的路徑相對於專案根目錄，dev server 直接提供
-const fromRoot = (path) => `/${path.replace(/^\/+/, '')}`;
+// 劇本裡的路徑相對於專案根目錄；部署到子路徑（GitHub Pages）時加上 base
+export const BASE = import.meta.env.BASE_URL;
+export const fromRoot = (path) => `${BASE}${path.replace(/^\/+/, '')}`;
 
 async function fetchJson(path) {
   const res = await fetch(fromRoot(path));
@@ -19,16 +19,18 @@ async function fetchJson(path) {
 }
 
 // 載入劇本與每句音訊，排好時間表。sceneId 省略時演整齣
-export async function loadScript(audioCtx, name, sceneId) {
+export async function loadScript(audioCtx, name, sceneId, timing = {}) {
+  const { firstLineAt, lineGap, sceneGap } = { ...DEFAULT_TIMING, ...timing };
   const script = await fetchJson(`assets/scripts/${name}.json`);
   const characters = Object.fromEntries(script.characters.map((c) => [c.id, c]));
   const scenes = sceneId ? script.scenes.filter((s) => s.id === sceneId) : script.scenes;
   if (!scenes.length) throw new Error(`劇本裡沒有場次 ${sceneId}`);
 
   const items = [];
-  let at = FIRST_LINE_AT_S;
+  let at = firstLineAt;
   let camera = 'upper';
-  for (const scene of scenes) {
+  for (const [k, scene] of scenes.entries()) {
+    if (k > 0) at += sceneGap;
     for (const line of scene.lines) {
       if (!line.audio || !line.timestamps) continue;
       const [buf, stamps] = await Promise.all([
@@ -46,11 +48,11 @@ export async function loadScript(audioCtx, name, sceneId) {
         words: stamps.words,
         at,
       });
-      at += audio.duration + LINE_GAP_S;
+      at += audio.duration + lineGap;
     }
   }
   if (!items.length) throw new Error('這一場沒有任何已對齊的台詞（先跑 scripts/align_lines.py）');
-  return { title: script.title, items, end: at };
+  return { title: script.title, characters: script.characters, items, end: at };
 }
 
 // 演出。cast 是角色 id → TalkingHead 實例；director 是 stage.js 的鏡頭與燈光（可省略）。

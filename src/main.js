@@ -4,6 +4,7 @@ import audioUrl from '../assets/audio/test/test_line.wav?url';
 import timestamps from '../assets/audio/test/test_line.json';
 import { loadScript, play, SYNC_WORD_INDEX as SCRIPT_SYNC_WORD_INDEX } from './script-player.js';
 import { blocking, buildStage, dress, place } from './stage.js';
+import { fromRoot } from './script-player.js';
 
 const playButton = document.getElementById('play');
 const subtitles = document.getElementById('subtitles');
@@ -43,7 +44,7 @@ async function main() {
   head.lipsync.en = new LipsyncEn();
 
   await head.showAvatar({
-    url: '/avatars/brunette.glb',
+    url: fromRoot('avatars/brunette.glb'),
     body: 'F',
     avatarMood: 'neutral',
     lipsyncLang: 'en',
@@ -79,7 +80,7 @@ async function main() {
 // 劇本模式：舞台上每個角色一個 TalkingHead。第一個角色（旁白）是主實例，持有 Three.js
 // 場景、鏡頭與渲染器；其他角色用 avatarOnly 模式加進同一個場景，由主實例的 update 驅動
 async function setupScript() {
-  const res = await fetch(`/assets/scripts/${scriptName}.json`);
+  const res = await fetch(fromRoot(`assets/scripts/${scriptName}.json`));
   if (!res.ok) throw new Error(`讀不到劇本 ${scriptName}（${res.status}）`);
   const script = await res.json();
   const roles = script.characters.filter((c) => c.id !== 'all');
@@ -89,7 +90,7 @@ async function setupScript() {
   const others = [];
   let director = null;
   const avatarFor = (c) => ({
-    url: `/${c.avatar}`,
+    url: fromRoot(c.avatar),
     body: c.body ?? 'F',
     avatarMood: 'neutral',
     lipsyncLang: 'en',
