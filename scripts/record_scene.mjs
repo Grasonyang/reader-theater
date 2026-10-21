@@ -48,18 +48,19 @@ try {
     if (msg.type() === 'error') console.error('[browser]', msg.text());
   });
 
-  // 載入前就接管時間，理由見 record_preview.mjs
-  await page.clock.install();
+  // 用真實時間載入完才接管時間。不像 record_preview.mjs 在載入前接管：整齣要載入
+  // 幾十個音檔，假時鐘在載入期間跟著跑，之後每張截圖都會慢到十幾秒以上。
   await page.goto(`${server.resolvedUrls.local[0]}?${query}`);
-  const loadDeadline = Date.now() + 300_000;
-  while (!(await page.evaluate(() => window.theater?.ready || window.theater?.error))) {
-    if (Date.now() > loadDeadline) throw new Error('頁面 300 秒內沒有載入完成');
-    await page.clock.runFor(100);
-  }
+  await page.waitForFunction(() => window.theater?.ready || window.theater?.error, null, { timeout: 300_000 });
   const loadError = await page.evaluate(() => window.theater.error);
   if (loadError) throw new Error(`頁面載入失敗：${loadError}`);
 
+  // 接管後假的 performance.now() 從 0 起算，比 TalkingHead 記下的真實時間小，
+  // 動畫時鐘會停住；先把假時間快轉到真實時間之後
+  const realPerf = await page.evaluate(() => performance.now());
+  await page.clock.install();
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + FRAME_MS);
+  await page.clock.fastForward(Math.ceil(realPerf) + 1000);
   await page.evaluate(() => document.getElementById('play').click());
   const t0 = await page.evaluate(() => window.theater.startedAt);
 
