@@ -43,7 +43,9 @@ def voice_filter(pitch: float, formant: float, tempo: float = 1.0) -> str:
     rest = 2 ** ((pitch - formant) / 12)
     return (
         f"asetrate={SAMPLE_RATE * r:.2f},aresample={SAMPLE_RATE},"
-        f"rubberband=tempo={tempo / r:.6f}:pitch={rest:.6f}:formant=preserved,"
+        # detector=soft、transients=mixed：給人聲用的設定，子音不會被當成打擊音處理而變得刺耳
+        f"rubberband=tempo={tempo / r:.6f}:pitch={rest:.6f}:formant=preserved"
+        ":transients=mixed:detector=soft,"
         f"alimiter=limit={PEAK_LIMIT}:level=false"
     )
 

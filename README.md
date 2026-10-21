@@ -24,6 +24,8 @@ npm run dev                      # 開 http://localhost:5173，按「播放台�
 
 網頁加 `?script=<名稱>&scene=<場次>` 會演 `assets/scripts/<名稱>.json`（例：`?script=missing-duck&scene=s1`）。
 
+原稿、錄音、角色模型等素材的位置與取得方式見 [docs/sources.md](docs/sources.md)。
+
 需要 Node 22、uv、ffmpeg。劇本格式見 [docs/script-schema.md](docs/script-schema.md)，授權見 [docs/licenses.md](docs/licenses.md)。
 
 ---

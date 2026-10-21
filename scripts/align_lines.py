@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = []
+# dependencies = ["numpy"]
 # ///
 """把一場戲的錄音切成一句一句，對回劇本。
 
@@ -51,6 +51,10 @@ MIN_CHAR_RATIO = 0.35
 # 同分時偏好較晚的段（每往後一段加這麼多），用來保留最後一次重唸
 LATER_BONUS = 1e-3
 SPLICE_FADE = 0.015
+# 每句的頭尾淡入淡出，避免切在聲音上時發出「喀」一聲
+EDGE_FADE_IN, EDGE_FADE_OUT = 0.01, 0.05
+# 切點往前後找最安靜的位置：句首往前最多、句尾往後最多
+SNAP_BEFORE, SNAP_AFTER = 0.2, 0.3
 
 NUMBERS = {
     "0": "zero", "1": "one", "2": "two", "3": "three", "4": "four", "5": "five",
@@ -221,25 +225,52 @@ def to_line_time(t: float, start: float, removed: list[tuple[float, float]]) -> 
     return max(0.0, t - start - gone)
 
 
+def envelope(path: Path, frame: float = 0.01):
+    """每 10 ms 的能量（dB），用來把切點移到最安靜的地方。"""
+    import numpy as np
+
+    pcm = subprocess.run(
+        ["ffmpeg", "-hide_banner", "-nostdin", "-loglevel", "error", "-i", str(path),
+         "-ac", "1", "-ar", "16000", "-f", "f32le", "-"],
+        check=True, capture_output=True,
+    ).stdout  # fmt: skip
+    x = np.frombuffer(pcm, dtype=np.float32)
+    hop = int(16000 * frame)
+    n = len(x) // hop
+    frames = x[: n * hop].reshape(n, hop)
+    return 10 * np.log10(np.mean(frames**2, axis=1) + 1e-12), frame
+
+
+def quietest(
+    env, frame: float, lo: float, hi: float, prefer_early: bool
+) -> float | None:
+    """[lo, hi] 之間最安靜的時間點；差不到 1 dB 的候選裡取最早（或最晚）的。"""
+    i0, i1 = max(0, int(lo / frame)), min(len(env), int(hi / frame) + 1)
+    if i1 <= i0:
+        return None
+    window = env[i0:i1]
+    floor = window.min()
+    near = [i for i, v in enumerate(window) if v <= floor + 1.0]
+    k = near[0] if prefer_early else near[-1]
+    return (i0 + k + 0.5) * frame
+
+
 def cut(src: Path, dst: Path, keep: list[tuple[float, float]]) -> None:
-    """切出 keep 這幾段接起來；多段時每個接縫做短淡入淡出。"""
-    if len(keep) == 1:
-        (start, end), parts = keep[0], None
-        args = ["-ss", f"{start:.3f}", "-to", f"{end:.3f}", "-i", str(src)]
-    else:
-        parts = []
-        for k, (start, end) in enumerate(keep):
-            fade_out = max(0.0, end - start - SPLICE_FADE)
-            parts.append(
-                f"[0:a]atrim=start={start:.3f}:end={end:.3f},asetpts=PTS-STARTPTS,"
-                f"afade=t=in:d={SPLICE_FADE},afade=t=out:st={fade_out:.3f}:d={SPLICE_FADE}[p{k}]"
-            )
-        labels = "".join(f"[p{k}]" for k in range(len(keep)))
-        graph = ";".join(parts) + f";{labels}concat=n={len(keep)}:v=0:a=1"
-        args = ["-i", str(src), "-filter_complex", graph]
+    """切出 keep 這幾段接起來；頭尾與每個接縫都做淡入淡出。"""
+    parts = []
+    for k, (start, end) in enumerate(keep):
+        fade_in = EDGE_FADE_IN if k == 0 else SPLICE_FADE
+        fade_out = EDGE_FADE_OUT if k == len(keep) - 1 else SPLICE_FADE
+        out_at = max(0.0, end - start - fade_out)
+        parts.append(
+            f"[0:a]atrim=start={start:.3f}:end={end:.3f},asetpts=PTS-STARTPTS,"
+            f"afade=t=in:d={fade_in},afade=t=out:st={out_at:.3f}:d={fade_out}[p{k}]"
+        )
+    labels = "".join(f"[p{k}]" for k in range(len(keep)))
+    graph = ";".join(parts) + f";{labels}concat=n={len(keep)}:v=0:a=1"
     subprocess.run(
-        ["ffmpeg", "-hide_banner", "-nostdin", "-loglevel", "error", "-y", *args,
-         "-c:a", "pcm_s16le", str(dst)],
+        ["ffmpeg", "-hide_banner", "-nostdin", "-loglevel", "error", "-y",
+         "-i", str(src), "-filter_complex", graph, "-c:a", "pcm_s16le", str(dst)],
         check=True,
     )  # fmt: skip
 
@@ -280,6 +311,7 @@ def main() -> int:
         [t for t in heard[c["first_word"] : c["last_word"] + 1] if t] for c in chunks
     ]
     ranges = assign(tokens, chunk_tokens)
+    env, frame = envelope(args.audio)
     used = {k for r in ranges if r for k in range(*r)}
 
     report = [f"## {scene['id']} {scene['title']}", ""]
@@ -308,6 +340,26 @@ def main() -> int:
         if b < len(chunks):
             end = min(end, (chunks[b - 1]["end"] + chunks[b]["start"]) / 2)
         start, end = max(0.0, start), min(end, stamps["duration"])
+        # 再把切點挪到附近最安靜的地方（字尾的餘音、換氣不會被切一半），
+        # 但不越過相鄰段，也不切進這句的第一個、最後一個字
+        prev_end = chunks[a - 1]["end"] if a > 0 else 0.0
+        next_start = chunks[b]["start"] if b < len(chunks) else stamps["duration"]
+        snapped = quietest(
+            env,
+            frame,
+            max(prev_end, start - SNAP_BEFORE),
+            min(chunks[a]["start"], start + 0.05),
+            False,
+        )
+        start = snapped if snapped is not None else start
+        snapped = quietest(
+            env,
+            frame,
+            max(chunks[b - 1]["end"], end - 0.05),
+            min(next_start, end + SNAP_AFTER),
+            True,
+        )
+        end = snapped if snapped is not None else end
 
         # 段內緊接著重複的字：剪掉沒對上劇本的那一個
         matched = {k for _, k in pairs if k is not None}
