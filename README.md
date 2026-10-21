@@ -12,7 +12,7 @@ npm run dev                      # 開 http://localhost:5173，按「播放台�
 
 | 指令 | 用途 |
 |---|---|
-| `uv run scripts/prep_audio.py <音檔> -o <輸出.wav>` | 降噪、-16 LUFS、48 kHz 單聲道，並產生逐字時間戳 JSON |
+| `uv run scripts/prep_audio.py <音檔> -o <輸出.wav> [--denoise]` | 人聲清晰化（EQ、壓縮、去齒音）、-16 LUFS、48 kHz 單聲道，並產生逐字時間戳 JSON。錄音環境吵雜時加 `--denoise` |
 | `npm run record` | 無頭瀏覽器逐格算圖，輸出 5 秒的 `preview.mp4` |
 
 需要 Node 22、uv、ffmpeg。劇本格式見 [docs/script-schema.md](docs/script-schema.md)，授權見 [docs/licenses.md](docs/licenses.md)。

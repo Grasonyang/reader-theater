@@ -35,7 +35,8 @@ TalkingHead README 提到的其他素材（Mixamo 動畫 `walking.fbx`、`dance.
 | `huggingface_hub` | 2.2.0 | Apache-2.0 |
 | `av`（faster-whisper 的相依；腳本不使用它解碼） | 19.0.2 | BSD-3-Clause |
 | `numpy` | 2.5.4 | BSD-3-Clause 等 |
-| 模型 `Systran/faster-whisper-small` | 首次執行時從 Hugging Face 下載 | MIT（由 OpenAI Whisper small 轉換，原模型為 MIT） |
+| 模型 `mobiuslabsgmbh/faster-whisper-large-v3-turbo`（預設） | 首次執行時從 Hugging Face 下載，約 1.6 GB | 原模型 `openai/whisper-large-v3-turbo` 為 MIT；轉換版的模型卡授權欄位未能自動查到，待人工確認 |
+| 模型 `Systran/faster-whisper-small`（`--model small`） | 同上 | MIT（由 OpenAI Whisper small 轉換，原模型為 MIT） |
 
 ## 系統工具（不隨專案散布）
 

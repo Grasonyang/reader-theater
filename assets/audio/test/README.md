@@ -3,8 +3,8 @@
 | 檔案 | 說明 |
 |---|---|
 | `raw/test_line.wav` | 原始輸入：eSpeak NG 合成，混入粉紅噪音，44.1 kHz 立體聲 |
-| `test_line.wav` | `scripts/prep_audio.py` 的輸出：降噪、-16 LUFS、48 kHz 單聲道 |
-| `test_line.json` | 同上，faster-whisper small 的逐字時間戳 |
+| `test_line.wav` | `scripts/prep_audio.py --denoise` 的輸出：清晰化、降噪、-16 LUFS、48 kHz 單聲道 |
+| `test_line.json` | 同上，faster-whisper large-v3-turbo 的逐字時間戳 |
 
 重新產生原始檔：
 
@@ -15,8 +15,8 @@ ffmpeg -y -i /tmp/tts.wav -f lavfi -i "anoisesrc=color=pink:amplitude=0.02:sampl
   -ac 2 -ar 44100 raw/test_line.wav
 ```
 
-再處理：
+再處理（原始檔刻意混了噪音，所以加 `--denoise`）：
 
 ```bash
-uv run scripts/prep_audio.py assets/audio/test/raw/test_line.wav -o assets/audio/test/test_line.wav
+uv run scripts/prep_audio.py assets/audio/test/raw/test_line.wav -o assets/audio/test/test_line.wav --denoise
 ```

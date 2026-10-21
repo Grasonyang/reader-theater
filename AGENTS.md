@@ -54,5 +54,5 @@ Vite + Three.js + TalkingHead 的網頁劇場。音訊前處理是 PEP 723 單�
 - 安裝：`npm ci && scripts/fetch_avatar.sh`
 - 格式：`uvx ruff format --check scripts/`（JS 尚未設定格式工具）
 - 靜態檢查：`uvx ruff check scripts/ && npm run build`
-- 測試（全部）：`uv run scripts/prep_audio.py assets/audio/test/raw/test_line.wav -o assets/audio/test/test_line.wav && npm run record`，再檢視 `preview.mp4` 的字幕與嘴型是否跟音訊同步
+- 測試（全部）：`uv run scripts/prep_audio.py assets/audio/test/raw/test_line.wav -o assets/audio/test/test_line.wav --denoise && npm run record`，再檢視 `preview.mp4` 的字幕與嘴型是否跟音訊同步
 - 測試（單檔）：尚無自動化測試

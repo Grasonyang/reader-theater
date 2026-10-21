@@ -16,3 +16,6 @@ dist/
 
 # 第三方角色（CC BY-NC 4.0，不進版控，用 scripts/fetch_avatar.sh 下載）
 public/avatars/*.glb
+
+# 使用者自己的錄音（個人聲音，不進版控）
+assets/audio/voice/
