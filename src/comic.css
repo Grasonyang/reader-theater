@@ -134,6 +134,8 @@ body {
   text-transform: uppercase;
   -webkit-text-stroke: 3px #111;
   text-shadow: 8px 8px 0 #111;
+  /* 蓋在角色（z-index 1、2）之上，片頭片尾（5）之下 */
+  z-index: 4;
 }
 
 .hidden { visibility: hidden; }
