@@ -28,6 +28,10 @@ FEATHER_PX = 1.5
 TRIM_MARGIN = 8
 # 格子之間常有白色分隔線，先往內縮這麼多像素再去背
 CELL_INSET = 10
+# 角色被格子邊緣切到（頭髮、手臂超出格子）時，那一側用這麼寬的漸層淡出，
+# 疊在別的角色前面才不會出現一條直直的切邊
+EDGE_FEATHER_PX = 56
+EDGE_TOUCH_RATIO = 0.08
 
 
 def green_mask(rgb: np.ndarray) -> np.ndarray:
@@ -65,7 +69,27 @@ def cut(cell: Image.Image) -> Image.Image:
         return img
     x0, x1 = max(0, xs.min() - TRIM_MARGIN), min(img.width, xs.max() + TRIM_MARGIN)
     y0 = max(0, ys.min() - TRIM_MARGIN)
-    return img.crop((x0, y0, x1, img.height))
+    return feather_cut_edges(img.crop((x0, y0, x1, img.height)))
+
+
+def feather_cut_edges(img: Image.Image) -> Image.Image:
+    """左、右、上三側若有內容貼到邊（被格子切掉），該側做漸層淡出。"""
+    rgba = np.asarray(img).copy()
+    a = rgba[..., 3].astype(np.float32)
+    n = EDGE_FEATHER_PX
+    ramp = np.linspace(0.0, 1.0, n, dtype=np.float32)
+
+    def touches(strip):
+        return (strip > 16).mean() > EDGE_TOUCH_RATIO
+
+    if touches(a[:, :3]):
+        a[:, :n] *= ramp[None, :]
+    if touches(a[:, -3:]):
+        a[:, -n:] *= ramp[::-1][None, :]
+    if touches(a[:3, :]):
+        a[:n, :] *= ramp[:, None]
+    rgba[..., 3] = a.clip(0, 255).astype(np.uint8)
+    return Image.fromarray(rgba, "RGBA")
 
 
 def main() -> int:

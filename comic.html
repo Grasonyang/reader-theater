@@ -17,8 +17,13 @@
       <div id="title-card" class="hidden"></div>
       <div id="intro"></div>
       <div id="hint" class="hidden"></div>
+      <div id="loading"><div class="spinner"></div><div id="loading-text">載入中…</div></div>
     </div>
-    <div id="hud"><button id="play" disabled>載入中…</button></div>
+    <div id="hud">
+      <button id="prev" class="nav hidden" title="上一句（←）">◀ 上一句</button>
+      <button id="play" disabled>載入中…</button>
+      <button id="next" class="nav hidden" title="下一句（→ 或空白鍵）">下一句 ▶</button>
+    </div>
     <script type="module" src="/src/comic.js"></script>
   </body>
 </html>

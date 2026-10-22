@@ -34,6 +34,10 @@ const nametag = $('nametag');
 const titleCard = $('title-card');
 const intro = $('intro');
 const hint = $('hint');
+const loading = $('loading');
+const loadingText = $('loading-text');
+const prevButton = $('prev');
+const nextButton = $('next');
 const bgs = [$('bg-a'), $('bg-b')];
 
 window.theater = { ready: false, speaking: false, done: false, error: null };
@@ -49,20 +53,32 @@ const now = () => performance.now();
 
 async function main() {
   const audioCtx = new AudioContext();
-  const show = await loadScript(audioCtx, scriptName, sceneId, autoMode ? AUTO_TIMING : {});
+  const onProgress = (n, total) => {
+    loadingText.textContent = `載入台詞 ${n} / ${total}`;
+  };
+  const show = await loadScript(audioCtx, scriptName, sceneId, {
+    ...(autoMode ? AUTO_TIMING : {}),
+    onProgress,
+  });
+  loadingText.textContent = '載入圖片…';
   const script = await fetch(fromRoot(`assets/scripts/${scriptName}.json`)).then((r) => r.json());
   const backgrounds = script.backgrounds ?? {};
 
-  // 角色圖
+  // 角色圖（與背景一起平行載入）
   const actors = new Map();
-  for (const c of script.characters) {
-    if (!c.comic?.image) continue;
+  const roles = script.characters.filter((c) => c.comic?.image);
+  const images = await Promise.all(
+    roles.map(async (c) => {
+      const img = new Image();
+      img.src = fromRoot(c.comic.image);
+      await img.decode();
+      return img;
+    }),
+  );
+  for (const [k, c] of roles.entries()) {
     const el = document.createElement('div');
     el.className = 'actor';
-    const img = new Image();
-    img.src = fromRoot(c.comic.image);
-    await img.decode();
-    el.append(img);
+    el.append(images[k]);
     el.style.height = `${Math.round((c.comic.height ?? 0.7) * H)}px`;
     el.style.left = `${Math.round(c.comic.x * W)}px`;
     el.style.transform = 'translateX(-50%)';
@@ -264,15 +280,19 @@ async function main() {
     }, (show.end + OUTRO_S) * 1000);
   };
 
-  // 點按模式：每點一下唸下一句
+  // 點按模式：點畫面或「下一句」唸下一句，「上一句」回頭重聽
   let cursor = -1;
-  const next = () => {
-    cursor += 1;
-    if (cursor >= show.items.length) return finish();
+  const go = (index) => {
+    if (index >= show.items.length) return finish();
+    cursor = Math.max(0, index);
     intro.classList.add('hidden');
     hint.textContent = `${cursor + 1} / ${show.items.length} · 點一下繼續 ▸`;
+    prevButton.disabled = cursor === 0;
+    nextButton.textContent = cursor === show.items.length - 1 ? '結束 ▶' : '下一句 ▶';
     startLine(show.items[cursor], cursor);
   };
+  const next = () => go(cursor + 1);
+  const prev = () => go(cursor - 1);
 
   const start = async () => {
     playButton.hidden = true;
@@ -282,16 +302,25 @@ async function main() {
     if (autoMode) return startAuto();
     hint.classList.remove('hidden');
     hint.textContent = '點一下開始 ▸';
+    prevButton.classList.remove('hidden');
+    nextButton.classList.remove('hidden');
+    prevButton.disabled = true;
     $('stage').addEventListener('click', next);
+    nextButton.addEventListener('click', next);
+    prevButton.addEventListener('click', prev);
     addEventListener('keydown', (e) => {
       if (e.code === 'Space' || e.code === 'Enter' || e.code === 'ArrowRight') {
         e.preventDefault();
         next();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        prev();
       }
     });
   };
 
   document.title = `${show.title} – Reader Theater`;
+  loading.classList.add('hidden');
   playButton.textContent = autoMode ? '開始演出' : '開始';
   playButton.disabled = false;
   playButton.addEventListener('click', start);
@@ -301,7 +330,8 @@ async function main() {
 main().catch((err) => {
   console.error(err);
   window.theater.error = String(err);
-  playButton.textContent = `載入失敗：${err.message ?? err}`;
+  loadingText.textContent = `載入失敗：${err.message ?? err}`;
+  playButton.textContent = '載入失敗';
 });
 
 export { BASE };

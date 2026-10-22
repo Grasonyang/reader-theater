@@ -20,11 +20,29 @@ async function fetchJson(path) {
 
 // 載入劇本與每句音訊，排好時間表。sceneId 省略時演整齣
 export async function loadScript(audioCtx, name, sceneId, timing = {}) {
-  const { firstLineAt, lineGap, sceneGap } = { ...DEFAULT_TIMING, ...timing };
+  const { firstLineAt, lineGap, sceneGap, onProgress } = { ...DEFAULT_TIMING, ...timing };
   const script = await fetchJson(`assets/scripts/${name}.json`);
   const characters = Object.fromEntries(script.characters.map((c) => [c.id, c]));
   const scenes = sceneId ? script.scenes.filter((s) => s.id === sceneId) : script.scenes;
   if (!scenes.length) throw new Error(`劇本裡沒有場次 ${sceneId}`);
+
+  // 所有台詞同時下載、解碼（逐句等待會慢好幾倍），再依順序排時間表
+  const pending = scenes.flatMap((scene) => scene.lines.filter((l) => l.audio && l.timestamps));
+  let loaded = 0;
+  onProgress?.(0, pending.length);
+  const decoded = new Map(
+    await Promise.all(
+      pending.map(async (line) => {
+        const [buf, stamps] = await Promise.all([
+          fetch(fromRoot(line.audio)).then((r) => r.arrayBuffer()),
+          fetchJson(line.timestamps),
+        ]);
+        const audio = await audioCtx.decodeAudioData(buf);
+        onProgress?.(++loaded, pending.length);
+        return [line, { audio, stamps }];
+      }),
+    ),
+  );
 
   const items = [];
   let at = firstLineAt;
@@ -32,12 +50,8 @@ export async function loadScript(audioCtx, name, sceneId, timing = {}) {
   for (const [k, scene] of scenes.entries()) {
     if (k > 0) at += sceneGap;
     for (const line of scene.lines) {
-      if (!line.audio || !line.timestamps) continue;
-      const [buf, stamps] = await Promise.all([
-        fetch(fromRoot(line.audio)).then((r) => r.arrayBuffer()),
-        fetchJson(line.timestamps),
-      ]);
-      const audio = await audioCtx.decodeAudioData(buf);
+      if (!decoded.has(line)) continue;
+      const { audio, stamps } = decoded.get(line);
       camera = line.camera?.view ?? camera;
       items.push({
         line,
