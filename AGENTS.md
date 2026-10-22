@@ -45,3 +45,14 @@ GitHub Issues，跨 repo 的看板是 org Project「開發看板」。See `docs/
 ### Domain docs
 
 single-context：根目錄一份 `GLOSSARY.md` 加 `docs/adr/`。See `docs/agents/domain.md`.
+
+## 專案：英文劇場虛擬劇場
+
+Vite + Three.js + TalkingHead 的網頁劇場。音訊前處理是 PEP 723 單檔腳本（`uv run`）。劇本格式見 `docs/script-schema.md`，第三方授權見 `docs/licenses.md`。
+
+## 驗證指令
+- 安裝：`npm ci && scripts/fetch_avatar.sh`
+- 格式：`uvx ruff format --check scripts/`（JS 尚未設定格式工具）
+- 靜態檢查：`uvx ruff check scripts/ && npm run build`
+- 測試（全部）：`uv run scripts/prep_audio.py assets/audio/test/raw/test_line.wav -o assets/audio/test/test_line.wav --denoise && npm run record`，再檢視 `preview.mp4` 的字幕與嘴型是否跟音訊同步
+- 測試（單檔）：尚無自動化測試

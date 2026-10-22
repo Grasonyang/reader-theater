@@ -9,3 +9,24 @@
 
 # 雜項
 .DS_Store
+
+# 前端
+node_modules/
+dist/
+
+# 第三方角色（CC BY-NC 4.0，不進版控，用 scripts/fetch_avatar.sh 下載）
+public/avatars/*.glb
+
+# 使用者的錄音：只收各劇本的原始錄音（<劇本>/raw/），處理後的 wav 可由
+# scripts/prep_scenes.sh 重建，不進版控
+assets/audio/voice/**
+!assets/audio/voice/*/
+!assets/audio/voice/*/raw/
+!assets/audio/voice/*/raw/**
+
+# 由 role_voices.py 產生的劇本（指向不進版控的 wav，幾秒就能重建）。
+# clone_voice.py 的 *-clone.json 要進版控：重建它需要 GPU 合成
+assets/scripts/*-voices.json
+
+# Python
+__pycache__/

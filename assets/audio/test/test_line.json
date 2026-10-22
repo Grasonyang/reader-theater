@@ -1,0 +1,101 @@
+{
+  "audio": "test_line.wav",
+  "sample_rate": 48000,
+  "loudness_lufs": -16.4,
+  "model": "faster-whisper/large-v3-turbo",
+  "language": "en",
+  "duration": 6.626,
+  "text": "To be, or not to be, that is the question. Welcome to our Reader's Theater.",
+  "words": [
+    {
+      "word": "To",
+      "start": 0.11,
+      "end": 0.59,
+      "probability": 0.804
+    },
+    {
+      "word": "be,",
+      "start": 0.59,
+      "end": 0.89,
+      "probability": 0.983
+    },
+    {
+      "word": "or",
+      "start": 1.05,
+      "end": 1.31,
+      "probability": 0.996
+    },
+    {
+      "word": "not",
+      "start": 1.31,
+      "end": 1.59,
+      "probability": 0.992
+    },
+    {
+      "word": "to",
+      "start": 1.59,
+      "end": 1.79,
+      "probability": 0.994
+    },
+    {
+      "word": "be,",
+      "start": 1.79,
+      "end": 2.05,
+      "probability": 0.999
+    },
+    {
+      "word": "that",
+      "start": 2.29,
+      "end": 2.57,
+      "probability": 0.993
+    },
+    {
+      "word": "is",
+      "start": 2.57,
+      "end": 2.75,
+      "probability": 0.987
+    },
+    {
+      "word": "the",
+      "start": 2.75,
+      "end": 2.89,
+      "probability": 0.996
+    },
+    {
+      "word": "question.",
+      "start": 2.89,
+      "end": 3.41,
+      "probability": 0.997
+    },
+    {
+      "word": "Welcome",
+      "start": 3.77,
+      "end": 4.29,
+      "probability": 0.987
+    },
+    {
+      "word": "to",
+      "start": 4.29,
+      "end": 4.55,
+      "probability": 0.998
+    },
+    {
+      "word": "our",
+      "start": 4.55,
+      "end": 4.81,
+      "probability": 0.978
+    },
+    {
+      "word": "Reader's",
+      "start": 4.81,
+      "end": 5.25,
+      "probability": 0.798
+    },
+    {
+      "word": "Theater.",
+      "start": 5.25,
+      "end": 5.57,
+      "probability": 0.441
+    }
+  ]
+}
