@@ -1,0 +1,52 @@
+{
+  "audio": "s3-l29.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 84.825,
+  "duration": 4.356,
+  "removed": [],
+  "text": "But who put the popcorn in the trophy?",
+  "issues": [],
+  "words": [
+    {
+      "word": "But",
+      "start": 0.15,
+      "end": 0.594
+    },
+    {
+      "word": "who",
+      "start": 0.594,
+      "end": 1.417
+    },
+    {
+      "word": "put",
+      "start": 1.417,
+      "end": 1.794
+    },
+    {
+      "word": "the",
+      "start": 1.794,
+      "end": 2.061
+    },
+    {
+      "word": "popcorn",
+      "start": 2.061,
+      "end": 2.728
+    },
+    {
+      "word": "in",
+      "start": 2.728,
+      "end": 3.15
+    },
+    {
+      "word": "the",
+      "start": 3.15,
+      "end": 3.35
+    },
+    {
+      "word": "trophy?",
+      "start": 3.35,
+      "end": 3.706
+    }
+  ]
+}

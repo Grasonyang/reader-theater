@@ -1,0 +1,82 @@
+{
+  "audio": "s3-l32.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 132.335,
+  "duration": 7.878,
+  "removed": [],
+  "text": "Oh, Sam. You should have asked me first. But you have a kind heart.",
+  "issues": [],
+  "words": [
+    {
+      "word": "Oh,",
+      "start": 0.0,
+      "end": 0.383
+    },
+    {
+      "word": "Sam.",
+      "start": 0.672,
+      "end": 0.961
+    },
+    {
+      "word": "You",
+      "start": 1.317,
+      "end": 1.628
+    },
+    {
+      "word": "should",
+      "start": 1.628,
+      "end": 2.028
+    },
+    {
+      "word": "have",
+      "start": 2.028,
+      "end": 2.339
+    },
+    {
+      "word": "asked",
+      "start": 2.339,
+      "end": 2.717
+    },
+    {
+      "word": "me",
+      "start": 2.717,
+      "end": 3.028
+    },
+    {
+      "word": "first.",
+      "start": 3.028,
+      "end": 3.45
+    },
+    {
+      "word": "But",
+      "start": 4.739,
+      "end": 5.161
+    },
+    {
+      "word": "you",
+      "start": 5.161,
+      "end": 5.806
+    },
+    {
+      "word": "have",
+      "start": 5.806,
+      "end": 6.072
+    },
+    {
+      "word": "a",
+      "start": 6.072,
+      "end": 6.317
+    },
+    {
+      "word": "kind",
+      "start": 6.317,
+      "end": 6.517
+    },
+    {
+      "word": "heart.",
+      "start": 6.517,
+      "end": 6.872
+    }
+  ]
+}

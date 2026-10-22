@@ -1,0 +1,92 @@
+{
+  "audio": "s1-l4.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 25.895,
+  "duration": 8.036,
+  "removed": [],
+  "text": "The trophy is gone! The gold trophy in the glass case. It's not there anymore!",
+  "issues": [
+    "「in」聽成「is」",
+    "「the」聽成「This」",
+    "「glass」沒聽到",
+    "「It's」聽成「is」"
+  ],
+  "words": [
+    {
+      "word": "The",
+      "start": 0.0,
+      "end": 0.183
+    },
+    {
+      "word": "trophy",
+      "start": 0.183,
+      "end": 0.487
+    },
+    {
+      "word": "is",
+      "start": 0.487,
+      "end": 0.719
+    },
+    {
+      "word": "gone!",
+      "start": 0.719,
+      "end": 1.004
+    },
+    {
+      "word": "The",
+      "start": 1.567,
+      "end": 1.879
+    },
+    {
+      "word": "gold",
+      "start": 1.879,
+      "end": 2.522
+    },
+    {
+      "word": "trophy",
+      "start": 2.522,
+      "end": 2.897
+    },
+    {
+      "word": "in",
+      "start": 2.897,
+      "end": 3.219
+    },
+    {
+      "word": "the",
+      "start": 4.201,
+      "end": 4.54
+    },
+    {
+      "word": "glass",
+      "start": 4.54,
+      "end": 4.54
+    },
+    {
+      "word": "case.",
+      "start": 4.54,
+      "end": 4.862
+    },
+    {
+      "word": "It's",
+      "start": 4.862,
+      "end": 5.897
+    },
+    {
+      "word": "not",
+      "start": 5.897,
+      "end": 6.219
+    },
+    {
+      "word": "there",
+      "start": 6.219,
+      "end": 6.969
+    },
+    {
+      "word": "anymore!",
+      "start": 6.969,
+      "end": 7.362
+    }
+  ]
+}

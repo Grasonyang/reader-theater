@@ -1,0 +1,64 @@
+{
+  "audio": "s3-l26.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 60.365,
+  "duration": 5.567,
+  "removed": [],
+  "text": "A duck? How did a duck get into my gym?",
+  "issues": [
+    "「gym?」聽成「dream?」"
+  ],
+  "words": [
+    {
+      "word": "A",
+      "start": 0.128,
+      "end": 0.528
+    },
+    {
+      "word": "duck?",
+      "start": 0.528,
+      "end": 0.928
+    },
+    {
+      "word": "How",
+      "start": 1.483,
+      "end": 2.283
+    },
+    {
+      "word": "did",
+      "start": 2.283,
+      "end": 2.461
+    },
+    {
+      "word": "a",
+      "start": 2.461,
+      "end": 2.617
+    },
+    {
+      "word": "duck",
+      "start": 2.617,
+      "end": 3.017
+    },
+    {
+      "word": "get",
+      "start": 3.017,
+      "end": 3.394
+    },
+    {
+      "word": "into",
+      "start": 3.394,
+      "end": 3.794
+    },
+    {
+      "word": "my",
+      "start": 3.794,
+      "end": 4.15
+    },
+    {
+      "word": "gym?",
+      "start": 4.15,
+      "end": 4.55
+    }
+  ]
+}

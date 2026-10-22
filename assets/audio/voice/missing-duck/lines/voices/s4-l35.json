@@ -1,0 +1,54 @@
+{
+  "audio": "s4-l35.wav",
+  "sample_rate": 48000,
+  "source": "scene4.wav",
+  "offset": 27.825,
+  "duration": 6.333,
+  "removed": [],
+  "text": "Sometimes the biggest mystery has the smallest answer.",
+  "issues": [
+    "「the」聽成「a」"
+  ],
+  "words": [
+    {
+      "word": "Sometimes",
+      "start": 0.0,
+      "end": 0.795
+    },
+    {
+      "word": "the",
+      "start": 0.795,
+      "end": 1.576
+    },
+    {
+      "word": "biggest",
+      "start": 1.576,
+      "end": 2.11
+    },
+    {
+      "word": "mystery",
+      "start": 2.11,
+      "end": 3.043
+    },
+    {
+      "word": "has",
+      "start": 3.043,
+      "end": 3.805
+    },
+    {
+      "word": "the",
+      "start": 3.805,
+      "end": 4.014
+    },
+    {
+      "word": "smallest",
+      "start": 4.014,
+      "end": 4.719
+    },
+    {
+      "word": "answer.",
+      "start": 4.719,
+      "end": 5.538
+    }
+  ]
+}

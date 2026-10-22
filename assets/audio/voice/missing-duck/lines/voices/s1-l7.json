@@ -1,0 +1,104 @@
+{
+  "audio": "s1-l7.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 55.445,
+  "duration": 8.667,
+  "removed": [],
+  "text": "I can't believe this! Who would steal our trophy? We won that trophy three years in a row!",
+  "issues": [
+    "「would」聽成「will」"
+  ],
+  "words": [
+    {
+      "word": "I",
+      "start": 0.083,
+      "end": 0.328
+    },
+    {
+      "word": "can't",
+      "start": 0.328,
+      "end": 0.661
+    },
+    {
+      "word": "believe",
+      "start": 0.661,
+      "end": 0.906
+    },
+    {
+      "word": "this!",
+      "start": 0.906,
+      "end": 1.439
+    },
+    {
+      "word": "Who",
+      "start": 1.639,
+      "end": 2.061
+    },
+    {
+      "word": "would",
+      "start": 2.061,
+      "end": 2.35
+    },
+    {
+      "word": "steal",
+      "start": 2.35,
+      "end": 2.817
+    },
+    {
+      "word": "our",
+      "start": 2.817,
+      "end": 3.572
+    },
+    {
+      "word": "trophy?",
+      "start": 3.572,
+      "end": 4.217
+    },
+    {
+      "word": "We",
+      "start": 4.528,
+      "end": 5.194
+    },
+    {
+      "word": "won",
+      "start": 5.194,
+      "end": 5.461
+    },
+    {
+      "word": "that",
+      "start": 5.461,
+      "end": 5.75
+    },
+    {
+      "word": "trophy",
+      "start": 5.75,
+      "end": 6.239
+    },
+    {
+      "word": "three",
+      "start": 6.239,
+      "end": 6.794
+    },
+    {
+      "word": "years",
+      "start": 6.794,
+      "end": 7.261
+    },
+    {
+      "word": "in",
+      "start": 7.261,
+      "end": 7.572
+    },
+    {
+      "word": "a",
+      "start": 7.572,
+      "end": 7.661
+    },
+    {
+      "word": "row!",
+      "start": 7.661,
+      "end": 7.972
+    }
+  ]
+}

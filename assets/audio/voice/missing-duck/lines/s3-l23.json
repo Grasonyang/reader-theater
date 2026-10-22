@@ -1,0 +1,82 @@
+{
+  "audio": "s3-l23.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 24.735,
+  "duration": 6.06,
+  "removed": [],
+  "text": "Mia slowly opened the door. The room was dark. She turned on the light.",
+  "issues": [],
+  "words": [
+    {
+      "word": "Mia",
+      "start": 0.025,
+      "end": 0.445
+    },
+    {
+      "word": "slowly",
+      "start": 0.445,
+      "end": 1.205
+    },
+    {
+      "word": "opened",
+      "start": 1.205,
+      "end": 1.665
+    },
+    {
+      "word": "the",
+      "start": 1.665,
+      "end": 1.865
+    },
+    {
+      "word": "door.",
+      "start": 1.865,
+      "end": 2.165
+    },
+    {
+      "word": "The",
+      "start": 2.405,
+      "end": 2.725
+    },
+    {
+      "word": "room",
+      "start": 2.725,
+      "end": 3.065
+    },
+    {
+      "word": "was",
+      "start": 3.065,
+      "end": 3.485
+    },
+    {
+      "word": "dark.",
+      "start": 3.485,
+      "end": 3.905
+    },
+    {
+      "word": "She",
+      "start": 4.105,
+      "end": 4.505
+    },
+    {
+      "word": "turned",
+      "start": 4.505,
+      "end": 4.785
+    },
+    {
+      "word": "on",
+      "start": 4.785,
+      "end": 5.125
+    },
+    {
+      "word": "the",
+      "start": 5.125,
+      "end": 5.285
+    },
+    {
+      "word": "light.",
+      "start": 5.285,
+      "end": 5.705
+    }
+  ]
+}

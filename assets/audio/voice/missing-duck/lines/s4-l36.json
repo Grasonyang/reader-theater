@@ -1,0 +1,22 @@
+{
+  "audio": "s4-l36.wav",
+  "sample_rate": 48000,
+  "source": "scene4.wav",
+  "offset": 34.805,
+  "duration": 1.14,
+  "removed": [],
+  "text": "Thank you!",
+  "issues": [],
+  "words": [
+    {
+      "word": "Thank",
+      "start": 0.0,
+      "end": 0.375
+    },
+    {
+      "word": "you!",
+      "start": 0.375,
+      "end": 0.735
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "audio": "s2-l14.wav",
+  "sample_rate": 48000,
+  "source": "scene2.wav",
+  "offset": 18.355,
+  "duration": 3.114,
+  "removed": [],
+  "text": "Clues, Ben. A thief always leaves something behind.",
+  "issues": [
+    "「Clues,」沒聽到",
+    "「Ben.」沒聽到",
+    "「thief」聽成「shape」"
+  ],
+  "words": [
+    {
+      "word": "Clues,",
+      "start": 0.065,
+      "end": 0.033
+    },
+    {
+      "word": "Ben.",
+      "start": 0.033,
+      "end": 0.002
+    },
+    {
+      "word": "A",
+      "start": 0.0,
+      "end": 0.348
+    },
+    {
+      "word": "thief",
+      "start": 0.348,
+      "end": 0.614
+    },
+    {
+      "word": "always",
+      "start": 0.614,
+      "end": 1.11
+    },
+    {
+      "word": "leaves",
+      "start": 1.11,
+      "end": 1.548
+    },
+    {
+      "word": "something",
+      "start": 1.548,
+      "end": 1.986
+    },
+    {
+      "word": "behind.",
+      "start": 1.986,
+      "end": 2.405
+    }
+  ]
+}

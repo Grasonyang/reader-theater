@@ -1,0 +1,97 @@
+{
+  "audio": "s3-l30.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 90.995,
+  "duration": 8.25,
+  "removed": [],
+  "text": "Everyone turned around. A small boy was standing at the door. It was Coach Lee's son, Sam.",
+  "issues": [],
+  "words": [
+    {
+      "word": "Everyone",
+      "start": 0.0,
+      "end": 0.485
+    },
+    {
+      "word": "turned",
+      "start": 0.485,
+      "end": 0.765
+    },
+    {
+      "word": "around.",
+      "start": 0.765,
+      "end": 1.325
+    },
+    {
+      "word": "A",
+      "start": 1.665,
+      "end": 2.045
+    },
+    {
+      "word": "small",
+      "start": 2.045,
+      "end": 2.325
+    },
+    {
+      "word": "boy",
+      "start": 2.325,
+      "end": 2.665
+    },
+    {
+      "word": "was",
+      "start": 2.665,
+      "end": 3.165
+    },
+    {
+      "word": "standing",
+      "start": 3.165,
+      "end": 3.725
+    },
+    {
+      "word": "at",
+      "start": 3.725,
+      "end": 4.265
+    },
+    {
+      "word": "the",
+      "start": 4.265,
+      "end": 4.425
+    },
+    {
+      "word": "door.",
+      "start": 4.425,
+      "end": 4.805
+    },
+    {
+      "word": "It",
+      "start": 5.125,
+      "end": 5.625
+    },
+    {
+      "word": "was",
+      "start": 5.625,
+      "end": 5.985
+    },
+    {
+      "word": "Coach",
+      "start": 5.985,
+      "end": 6.405
+    },
+    {
+      "word": "Lee's",
+      "start": 6.405,
+      "end": 6.825
+    },
+    {
+      "word": "son,",
+      "start": 6.825,
+      "end": 7.105
+    },
+    {
+      "word": "Sam.",
+      "start": 7.585,
+      "end": 7.765
+    }
+  ]
+}

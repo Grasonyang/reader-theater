@@ -1,0 +1,32 @@
+{
+  "audio": "s1-l10.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 75.975,
+  "duration": 2.914,
+  "removed": [],
+  "text": "Was anything else missing?",
+  "issues": [],
+  "words": [
+    {
+      "word": "Was",
+      "start": 0.348,
+      "end": 0.957
+    },
+    {
+      "word": "anything",
+      "start": 0.957,
+      "end": 1.452
+    },
+    {
+      "word": "else",
+      "start": 1.452,
+      "end": 1.852
+    },
+    {
+      "word": "missing?",
+      "start": 1.852,
+      "end": 2.329
+    }
+  ]
+}

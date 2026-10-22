@@ -1,0 +1,37 @@
+{
+  "audio": "s3-l24.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 31.855,
+  "duration": 3.276,
+  "removed": [],
+  "text": "Ben! Coach! Come and look!",
+  "issues": [],
+  "words": [
+    {
+      "word": "Ben!",
+      "start": 0.176,
+      "end": 0.595
+    },
+    {
+      "word": "Coach!",
+      "start": 0.938,
+      "end": 1.357
+    },
+    {
+      "word": "Come",
+      "start": 1.681,
+      "end": 1.929
+    },
+    {
+      "word": "and",
+      "start": 1.929,
+      "end": 2.1
+    },
+    {
+      "word": "look!",
+      "start": 2.1,
+      "end": 2.481
+    }
+  ]
+}

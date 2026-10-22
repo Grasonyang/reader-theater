@@ -1,0 +1,75 @@
+{
+  "audio": "s1-l9.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 68.725,
+  "duration": 8.056,
+  "removed": [],
+  "text": "Last night, at about six o'clock. I locked the gym door myself.",
+  "issues": [
+    "「Last」沒聽到",
+    "「gym」聽成「dream」"
+  ],
+  "words": [
+    {
+      "word": "Last",
+      "start": 0.206,
+      "end": 0.406
+    },
+    {
+      "word": "night,",
+      "start": 0.506,
+      "end": 0.794
+    },
+    {
+      "word": "at",
+      "start": 1.817,
+      "end": 2.15
+    },
+    {
+      "word": "about",
+      "start": 2.15,
+      "end": 2.55
+    },
+    {
+      "word": "six",
+      "start": 2.55,
+      "end": 2.883
+    },
+    {
+      "word": "o'clock.",
+      "start": 3.194,
+      "end": 3.528
+    },
+    {
+      "word": "I",
+      "start": 4.194,
+      "end": 4.883
+    },
+    {
+      "word": "locked",
+      "start": 4.883,
+      "end": 5.239
+    },
+    {
+      "word": "the",
+      "start": 5.239,
+      "end": 5.661
+    },
+    {
+      "word": "gym",
+      "start": 5.661,
+      "end": 6.106
+    },
+    {
+      "word": "door",
+      "start": 6.106,
+      "end": 6.506
+    },
+    {
+      "word": "myself.",
+      "start": 6.506,
+      "end": 7.639
+    }
+  ]
+}

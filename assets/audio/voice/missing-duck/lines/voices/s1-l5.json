@@ -1,0 +1,42 @@
+{
+  "audio": "s1-l5.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 36.475,
+  "duration": 3.695,
+  "removed": [],
+  "text": "Gone? But the final is tomorrow!",
+  "issues": [],
+  "words": [
+    {
+      "word": "Gone?",
+      "start": 0.0,
+      "end": 0.348
+    },
+    {
+      "word": "But",
+      "start": 1.014,
+      "end": 1.224
+    },
+    {
+      "word": "the",
+      "start": 1.224,
+      "end": 1.414
+    },
+    {
+      "word": "final",
+      "start": 1.414,
+      "end": 1.795
+    },
+    {
+      "word": "is",
+      "start": 1.795,
+      "end": 2.1
+    },
+    {
+      "word": "tomorrow!",
+      "start": 2.1,
+      "end": 2.424
+    }
+  ]
+}

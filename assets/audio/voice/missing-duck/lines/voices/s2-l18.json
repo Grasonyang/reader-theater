@@ -1,0 +1,75 @@
+{
+  "audio": "s2-l18.wav",
+  "sample_rate": 48000,
+  "source": "scene2.wav",
+  "offset": 52.085,
+  "duration": 5.223,
+  "removed": [],
+  "text": "Maybe it was a ghost! People say the old gym is haunted!",
+  "issues": [
+    "「a」沒聽到",
+    "「gym」聽成「dream」"
+  ],
+  "words": [
+    {
+      "word": "Maybe",
+      "start": 0.0,
+      "end": 0.353
+    },
+    {
+      "word": "it",
+      "start": 0.353,
+      "end": 0.799
+    },
+    {
+      "word": "was",
+      "start": 0.799,
+      "end": 1.031
+    },
+    {
+      "word": "a",
+      "start": 1.031,
+      "end": 1.031
+    },
+    {
+      "word": "ghost!",
+      "start": 1.031,
+      "end": 1.406
+    },
+    {
+      "word": "People",
+      "start": 1.406,
+      "end": 2.549
+    },
+    {
+      "word": "say",
+      "start": 2.549,
+      "end": 3.049
+    },
+    {
+      "word": "the",
+      "start": 3.049,
+      "end": 3.371
+    },
+    {
+      "word": "old",
+      "start": 3.371,
+      "end": 3.603
+    },
+    {
+      "word": "gym",
+      "start": 3.603,
+      "end": 3.799
+    },
+    {
+      "word": "is",
+      "start": 3.799,
+      "end": 4.049
+    },
+    {
+      "word": "haunted!",
+      "start": 4.049,
+      "end": 4.585
+    }
+  ]
+}

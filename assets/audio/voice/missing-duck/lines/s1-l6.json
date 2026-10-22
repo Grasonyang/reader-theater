@@ -1,0 +1,122 @@
+{
+  "audio": "s1-l6.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 42.105,
+  "duration": 9.8,
+  "removed": [
+    [
+      50.92,
+      51.34
+    ]
+  ],
+  "text": "The two friends ran down the hall to the gym. Coach Lee was standing in front of the empty glass case.",
+  "issues": [],
+  "words": [
+    {
+      "word": "The",
+      "start": 0.0,
+      "end": 0.215
+    },
+    {
+      "word": "two",
+      "start": 0.215,
+      "end": 0.555
+    },
+    {
+      "word": "friends",
+      "start": 0.555,
+      "end": 1.075
+    },
+    {
+      "word": "ran",
+      "start": 1.075,
+      "end": 1.575
+    },
+    {
+      "word": "down",
+      "start": 1.575,
+      "end": 1.935
+    },
+    {
+      "word": "the",
+      "start": 1.935,
+      "end": 2.335
+    },
+    {
+      "word": "hall",
+      "start": 2.335,
+      "end": 3.235
+    },
+    {
+      "word": "to",
+      "start": 3.235,
+      "end": 3.535
+    },
+    {
+      "word": "the",
+      "start": 3.535,
+      "end": 3.775
+    },
+    {
+      "word": "gym.",
+      "start": 3.775,
+      "end": 4.595
+    },
+    {
+      "word": "Coach",
+      "start": 5.235,
+      "end": 5.415
+    },
+    {
+      "word": "Lee",
+      "start": 5.415,
+      "end": 5.655
+    },
+    {
+      "word": "was",
+      "start": 5.655,
+      "end": 6.155
+    },
+    {
+      "word": "standing",
+      "start": 6.155,
+      "end": 6.695
+    },
+    {
+      "word": "in",
+      "start": 6.695,
+      "end": 7.135
+    },
+    {
+      "word": "front",
+      "start": 7.135,
+      "end": 7.375
+    },
+    {
+      "word": "of",
+      "start": 7.375,
+      "end": 7.695
+    },
+    {
+      "word": "the",
+      "start": 7.695,
+      "end": 7.895
+    },
+    {
+      "word": "empty",
+      "start": 7.895,
+      "end": 8.335
+    },
+    {
+      "word": "glass",
+      "start": 8.335,
+      "end": 8.815
+    },
+    {
+      "word": "case.",
+      "start": 8.815,
+      "end": 9.455
+    }
+  ]
+}

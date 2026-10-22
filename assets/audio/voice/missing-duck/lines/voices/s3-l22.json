@@ -1,0 +1,49 @@
+{
+  "audio": "s3-l22.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 19.615,
+  "duration": 3.286,
+  "removed": [],
+  "text": "Then I'll go first. Stay behind me.",
+  "issues": [
+    "「I'll」聽成「i」"
+  ],
+  "words": [
+    {
+      "word": "Then",
+      "start": 0.0,
+      "end": 0.386
+    },
+    {
+      "word": "I'll",
+      "start": 0.386,
+      "end": 0.786
+    },
+    {
+      "word": "go",
+      "start": 0.976,
+      "end": 1.224
+    },
+    {
+      "word": "first.",
+      "start": 1.224,
+      "end": 1.567
+    },
+    {
+      "word": "Stay",
+      "start": 1.567,
+      "end": 2.1
+    },
+    {
+      "word": "behind",
+      "start": 2.1,
+      "end": 2.386
+    },
+    {
+      "word": "me.",
+      "start": 2.386,
+      "end": 2.633
+    }
+  ]
+}

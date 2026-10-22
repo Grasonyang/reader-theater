@@ -1,0 +1,126 @@
+{
+  "audio": "s3-l27.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 65.865,
+  "duration": 11.524,
+  "removed": [],
+  "text": "Look, the window above the door is open. The duck came in from the pond last night. It was looking for food.",
+  "issues": [
+    "「duck」聽成「dark」",
+    "「came」聽成「come」",
+    "「pond」聽成「pen」"
+  ],
+  "words": [
+    {
+      "word": "Look,",
+      "start": 0.148,
+      "end": 0.548
+    },
+    {
+      "word": "the",
+      "start": 0.548,
+      "end": 1.557
+    },
+    {
+      "word": "window",
+      "start": 1.557,
+      "end": 1.976
+    },
+    {
+      "word": "above",
+      "start": 1.976,
+      "end": 2.357
+    },
+    {
+      "word": "the",
+      "start": 2.357,
+      "end": 2.662
+    },
+    {
+      "word": "door",
+      "start": 2.662,
+      "end": 3.005
+    },
+    {
+      "word": "is",
+      "start": 3.005,
+      "end": 3.214
+    },
+    {
+      "word": "open.",
+      "start": 3.214,
+      "end": 3.652
+    },
+    {
+      "word": "The",
+      "start": 3.652,
+      "end": 4.338
+    },
+    {
+      "word": "duck",
+      "start": 4.338,
+      "end": 4.605
+    },
+    {
+      "word": "came",
+      "start": 4.605,
+      "end": 5.024
+    },
+    {
+      "word": "in",
+      "start": 5.024,
+      "end": 5.595
+    },
+    {
+      "word": "from",
+      "start": 5.595,
+      "end": 5.938
+    },
+    {
+      "word": "the",
+      "start": 7.062,
+      "end": 7.348
+    },
+    {
+      "word": "pond",
+      "start": 7.348,
+      "end": 7.824
+    },
+    {
+      "word": "last",
+      "start": 7.824,
+      "end": 8.09
+    },
+    {
+      "word": "night.",
+      "start": 8.09,
+      "end": 8.548
+    },
+    {
+      "word": "It",
+      "start": 8.795,
+      "end": 9.443
+    },
+    {
+      "word": "was",
+      "start": 9.443,
+      "end": 9.729
+    },
+    {
+      "word": "looking",
+      "start": 9.729,
+      "end": 10.205
+    },
+    {
+      "word": "for",
+      "start": 10.205,
+      "end": 10.567
+    },
+    {
+      "word": "food.",
+      "start": 10.567,
+      "end": 10.91
+    }
+  ]
+}

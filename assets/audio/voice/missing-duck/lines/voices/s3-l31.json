@@ -1,0 +1,84 @@
+{
+  "audio": "s3-l31.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 101.065,
+  "duration": 7.021,
+  "removed": [],
+  "text": "I'm sorry, Dad. The duck was so hungry. I just wanted to help it.",
+  "issues": [
+    "「duck」聽成「dog」"
+  ],
+  "words": [
+    {
+      "word": "I'm",
+      "start": 0.016,
+      "end": 0.374
+    },
+    {
+      "word": "sorry,",
+      "start": 0.374,
+      "end": 0.816
+    },
+    {
+      "word": "Dad.",
+      "start": 0.816,
+      "end": 1.3
+    },
+    {
+      "word": "The",
+      "start": 1.763,
+      "end": 1.889
+    },
+    {
+      "word": "duck",
+      "start": 1.889,
+      "end": 2.268
+    },
+    {
+      "word": "was",
+      "start": 2.268,
+      "end": 2.605
+    },
+    {
+      "word": "so",
+      "start": 2.605,
+      "end": 2.858
+    },
+    {
+      "word": "hungry.",
+      "start": 2.858,
+      "end": 3.342
+    },
+    {
+      "word": "I",
+      "start": 3.679,
+      "end": 4.184
+    },
+    {
+      "word": "just",
+      "start": 4.184,
+      "end": 4.542
+    },
+    {
+      "word": "wanted",
+      "start": 4.542,
+      "end": 5.132
+    },
+    {
+      "word": "to",
+      "start": 5.132,
+      "end": 5.553
+    },
+    {
+      "word": "help",
+      "start": 5.553,
+      "end": 5.911
+    },
+    {
+      "word": "it.",
+      "start": 5.911,
+      "end": 6.247
+    }
+  ]
+}

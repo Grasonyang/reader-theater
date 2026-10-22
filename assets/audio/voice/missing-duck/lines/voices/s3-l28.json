@@ -1,0 +1,49 @@
+{
+  "audio": "s3-l28.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 80.115,
+  "duration": 2.759,
+  "removed": [],
+  "text": "And the trophy was the perfect bowl!",
+  "issues": [
+    "「the」沒聽到"
+  ],
+  "words": [
+    {
+      "word": "And",
+      "start": 0.004,
+      "end": 0.237
+    },
+    {
+      "word": "the",
+      "start": 0.237,
+      "end": 0.397
+    },
+    {
+      "word": "trophy",
+      "start": 0.397,
+      "end": 0.772
+    },
+    {
+      "word": "was",
+      "start": 0.772,
+      "end": 1.254
+    },
+    {
+      "word": "the",
+      "start": 1.254,
+      "end": 1.254
+    },
+    {
+      "word": "perfect",
+      "start": 1.254,
+      "end": 1.772
+    },
+    {
+      "word": "bowl!",
+      "start": 1.772,
+      "end": 2.183
+    }
+  ]
+}

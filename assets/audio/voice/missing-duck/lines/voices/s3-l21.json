@@ -1,0 +1,59 @@
+{
+  "audio": "s3-l21.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 14.365,
+  "duration": 3.196,
+  "removed": [],
+  "text": "Did you hear that? I'm not going in there!",
+  "issues": [
+    "「Did」沒聽到"
+  ],
+  "words": [
+    {
+      "word": "Did",
+      "start": 0.103,
+      "end": 0.138
+    },
+    {
+      "word": "you",
+      "start": 0.156,
+      "end": 0.281
+    },
+    {
+      "word": "hear",
+      "start": 0.281,
+      "end": 0.478
+    },
+    {
+      "word": "that?",
+      "start": 0.478,
+      "end": 0.746
+    },
+    {
+      "word": "I'm",
+      "start": 1.067,
+      "end": 1.513
+    },
+    {
+      "word": "not",
+      "start": 1.513,
+      "end": 1.71
+    },
+    {
+      "word": "going",
+      "start": 1.71,
+      "end": 1.978
+    },
+    {
+      "word": "in",
+      "start": 1.978,
+      "end": 2.21
+    },
+    {
+      "word": "there!",
+      "start": 2.21,
+      "end": 2.478
+    }
+  ]
+}

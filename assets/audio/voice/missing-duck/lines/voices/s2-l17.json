@@ -1,0 +1,75 @@
+{
+  "audio": "s2-l17.wav",
+  "sample_rate": 48000,
+  "source": "scene2.wav",
+  "offset": 43.675,
+  "duration": 6.629,
+  "removed": [],
+  "text": "Hmm. This footprint is very small. It's too small for an adult.",
+  "issues": [
+    "「footprint」聽成「blueprint」",
+    "「adult.」聽成「dots.」"
+  ],
+  "words": [
+    {
+      "word": "Hmm.",
+      "start": 0.005,
+      "end": 0.519
+    },
+    {
+      "word": "This",
+      "start": 1.738,
+      "end": 1.967
+    },
+    {
+      "word": "footprint",
+      "start": 1.967,
+      "end": 2.481
+    },
+    {
+      "word": "is",
+      "start": 2.481,
+      "end": 2.957
+    },
+    {
+      "word": "very",
+      "start": 2.957,
+      "end": 3.262
+    },
+    {
+      "word": "small.",
+      "start": 3.262,
+      "end": 3.7
+    },
+    {
+      "word": "It's",
+      "start": 3.967,
+      "end": 4.538
+    },
+    {
+      "word": "too",
+      "start": 4.538,
+      "end": 4.862
+    },
+    {
+      "word": "small",
+      "start": 4.862,
+      "end": 5.262
+    },
+    {
+      "word": "for",
+      "start": 5.262,
+      "end": 5.49
+    },
+    {
+      "word": "an",
+      "start": 5.49,
+      "end": 5.719
+    },
+    {
+      "word": "adult.",
+      "start": 5.719,
+      "end": 6.081
+    }
+  ]
+}

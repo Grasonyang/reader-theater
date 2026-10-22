@@ -1,0 +1,52 @@
+{
+  "audio": "s2-l16.wav",
+  "sample_rate": 48000,
+  "source": "scene2.wav",
+  "offset": 37.865,
+  "duration": 4.625,
+  "removed": [],
+  "text": "A feather? Popcorn? That doesn't make any sense.",
+  "issues": [],
+  "words": [
+    {
+      "word": "A",
+      "start": 0.067,
+      "end": 0.371
+    },
+    {
+      "word": "feather?",
+      "start": 0.371,
+      "end": 1.031
+    },
+    {
+      "word": "Popcorn?",
+      "start": 1.317,
+      "end": 1.906
+    },
+    {
+      "word": "That",
+      "start": 2.174,
+      "end": 2.763
+    },
+    {
+      "word": "doesn't",
+      "start": 2.763,
+      "end": 3.103
+    },
+    {
+      "word": "make",
+      "start": 3.103,
+      "end": 3.281
+    },
+    {
+      "word": "any",
+      "start": 3.281,
+      "end": 3.513
+    },
+    {
+      "word": "sense.",
+      "start": 3.513,
+      "end": 3.871
+    }
+  ]
+}

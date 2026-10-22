@@ -1,0 +1,54 @@
+{
+  "audio": "s1-l8.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 64.365,
+  "duration": 3.99,
+  "removed": [],
+  "text": "Coach Lee, when did you last see it?",
+  "issues": [
+    "「last」聽成「let」"
+  ],
+  "words": [
+    {
+      "word": "Coach",
+      "start": 0.0,
+      "end": 0.3
+    },
+    {
+      "word": "Lee,",
+      "start": 0.3,
+      "end": 0.51
+    },
+    {
+      "word": "when",
+      "start": 1.176,
+      "end": 1.69
+    },
+    {
+      "word": "did",
+      "start": 1.69,
+      "end": 1.843
+    },
+    {
+      "word": "you",
+      "start": 1.843,
+      "end": 2.129
+    },
+    {
+      "word": "last",
+      "start": 2.129,
+      "end": 2.662
+    },
+    {
+      "word": "see",
+      "start": 2.814,
+      "end": 3.081
+    },
+    {
+      "word": "it?",
+      "start": 3.081,
+      "end": 3.386
+    }
+  ]
+}

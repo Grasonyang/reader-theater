@@ -1,0 +1,77 @@
+{
+  "audio": "s2-l12.wav",
+  "sample_rate": 48000,
+  "source": "scene2.wav",
+  "offset": 8.195,
+  "duration": 6.02,
+  "removed": [],
+  "text": "Mia looked carefully around the gym. She was quiet for a long time.",
+  "issues": [],
+  "words": [
+    {
+      "word": "Mia",
+      "start": 0.065,
+      "end": 0.525
+    },
+    {
+      "word": "looked",
+      "start": 0.785,
+      "end": 1.065
+    },
+    {
+      "word": "carefully",
+      "start": 1.065,
+      "end": 1.665
+    },
+    {
+      "word": "around",
+      "start": 1.665,
+      "end": 2.205
+    },
+    {
+      "word": "the",
+      "start": 2.205,
+      "end": 2.385
+    },
+    {
+      "word": "gym.",
+      "start": 2.385,
+      "end": 2.705
+    },
+    {
+      "word": "She",
+      "start": 2.905,
+      "end": 3.405
+    },
+    {
+      "word": "was",
+      "start": 3.405,
+      "end": 3.665
+    },
+    {
+      "word": "quiet",
+      "start": 3.665,
+      "end": 4.065
+    },
+    {
+      "word": "for",
+      "start": 4.065,
+      "end": 4.425
+    },
+    {
+      "word": "a",
+      "start": 4.425,
+      "end": 4.665
+    },
+    {
+      "word": "long",
+      "start": 4.665,
+      "end": 4.885
+    },
+    {
+      "word": "time.",
+      "start": 4.885,
+      "end": 5.225
+    }
+  ]
+}

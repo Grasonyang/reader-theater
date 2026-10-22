@@ -1,0 +1,52 @@
+{
+  "audio": "s1-l2.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 15.275,
+  "duration": 4.518,
+  "removed": [],
+  "text": "Mia! Mia! Come quickly! Something terrible has happened!",
+  "issues": [],
+  "words": [
+    {
+      "word": "Mia!",
+      "start": 0.0,
+      "end": 0.254
+    },
+    {
+      "word": "Mia!",
+      "start": 0.379,
+      "end": 0.558
+    },
+    {
+      "word": "Come",
+      "start": 0.951,
+      "end": 1.415
+    },
+    {
+      "word": "quickly!",
+      "start": 1.415,
+      "end": 1.808
+    },
+    {
+      "word": "Something",
+      "start": 2.183,
+      "end": 2.558
+    },
+    {
+      "word": "terrible",
+      "start": 2.558,
+      "end": 3.004
+    },
+    {
+      "word": "has",
+      "start": 3.004,
+      "end": 3.344
+    },
+    {
+      "word": "happened!",
+      "start": 3.344,
+      "end": 3.772
+    }
+  ]
+}

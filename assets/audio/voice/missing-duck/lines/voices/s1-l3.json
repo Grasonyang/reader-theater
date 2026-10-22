@@ -1,0 +1,57 @@
+{
+  "audio": "s1-l3.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 20.585,
+  "duration": 4.562,
+  "removed": [],
+  "text": "Slow down, Ben. Take a deep breath. What's wrong?",
+  "issues": [],
+  "words": [
+    {
+      "word": "Slow",
+      "start": 0.0,
+      "end": 0.338
+    },
+    {
+      "word": "down,",
+      "start": 0.338,
+      "end": 0.662
+    },
+    {
+      "word": "Ben.",
+      "start": 0.89,
+      "end": 1.138
+    },
+    {
+      "word": "Take",
+      "start": 1.595,
+      "end": 1.805
+    },
+    {
+      "word": "a",
+      "start": 1.805,
+      "end": 2.052
+    },
+    {
+      "word": "deep",
+      "start": 2.052,
+      "end": 2.529
+    },
+    {
+      "word": "breath.",
+      "start": 2.529,
+      "end": 2.871
+    },
+    {
+      "word": "What's",
+      "start": 3.271,
+      "end": 3.557
+    },
+    {
+      "word": "wrong?",
+      "start": 3.557,
+      "end": 3.805
+    }
+  ]
+}

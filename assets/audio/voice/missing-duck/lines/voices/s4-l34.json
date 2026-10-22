@@ -1,0 +1,52 @@
+{
+  "audio": "s4-l34.wav",
+  "sample_rate": 48000,
+  "source": "scene4.wav",
+  "offset": 16.175,
+  "duration": 5.402,
+  "removed": [],
+  "text": "Ladies and gentlemen, please welcome... Lucky the Duck!",
+  "issues": [],
+  "words": [
+    {
+      "word": "Ladies",
+      "start": 0.165,
+      "end": 0.522
+    },
+    {
+      "word": "and",
+      "start": 0.522,
+      "end": 0.969
+    },
+    {
+      "word": "gentlemen,",
+      "start": 0.969,
+      "end": 1.379
+    },
+    {
+      "word": "please",
+      "start": 1.933,
+      "end": 2.254
+    },
+    {
+      "word": "welcome...",
+      "start": 2.254,
+      "end": 2.844
+    },
+    {
+      "word": "Lucky",
+      "start": 2.844,
+      "end": 3.808
+    },
+    {
+      "word": "the",
+      "start": 3.808,
+      "end": 4.29
+    },
+    {
+      "word": "Duck!",
+      "start": 4.29,
+      "end": 4.594
+    }
+  ]
+}

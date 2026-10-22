@@ -1,0 +1,117 @@
+{
+  "audio": "s1-l1.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 4.485,
+  "duration": 9.73,
+  "removed": [],
+  "text": "It was Friday morning at Green Hill Junior High. Tomorrow was the big basketball final, and the whole school was excited.",
+  "issues": [],
+  "words": [
+    {
+      "word": "It",
+      "start": 0.0,
+      "end": 0.375
+    },
+    {
+      "word": "was",
+      "start": 0.375,
+      "end": 0.635
+    },
+    {
+      "word": "Friday",
+      "start": 0.635,
+      "end": 1.075
+    },
+    {
+      "word": "morning",
+      "start": 1.075,
+      "end": 1.555
+    },
+    {
+      "word": "at",
+      "start": 1.555,
+      "end": 1.935
+    },
+    {
+      "word": "Green",
+      "start": 1.935,
+      "end": 2.275
+    },
+    {
+      "word": "Hill",
+      "start": 2.275,
+      "end": 2.655
+    },
+    {
+      "word": "Junior",
+      "start": 2.655,
+      "end": 2.955
+    },
+    {
+      "word": "High.",
+      "start": 2.955,
+      "end": 3.375
+    },
+    {
+      "word": "Tomorrow",
+      "start": 3.635,
+      "end": 4.275
+    },
+    {
+      "word": "was",
+      "start": 4.275,
+      "end": 4.795
+    },
+    {
+      "word": "the",
+      "start": 4.795,
+      "end": 5.035
+    },
+    {
+      "word": "big",
+      "start": 5.035,
+      "end": 5.295
+    },
+    {
+      "word": "basketball",
+      "start": 5.295,
+      "end": 6.115
+    },
+    {
+      "word": "final,",
+      "start": 6.115,
+      "end": 6.555
+    },
+    {
+      "word": "and",
+      "start": 6.795,
+      "end": 7.155
+    },
+    {
+      "word": "the",
+      "start": 7.155,
+      "end": 7.375
+    },
+    {
+      "word": "whole",
+      "start": 7.375,
+      "end": 7.675
+    },
+    {
+      "word": "school",
+      "start": 7.675,
+      "end": 8.035
+    },
+    {
+      "word": "was",
+      "start": 8.035,
+      "end": 8.375
+    },
+    {
+      "word": "excited.",
+      "start": 8.375,
+      "end": 9.035
+    }
+  ]
+}

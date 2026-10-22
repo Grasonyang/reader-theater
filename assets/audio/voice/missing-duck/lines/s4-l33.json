@@ -1,0 +1,120 @@
+{
+  "audio": "s4-l33.wav",
+  "sample_rate": 48000,
+  "source": "scene4.wav",
+  "offset": 4.365,
+  "duration": 10.46,
+  "removed": [],
+  "text": "The next day, the trophy was back in the glass case, shiny and clean. And the team had a new friend.",
+  "issues": [
+    "「glass」聽成「caskets,」",
+    "「case,」沒聽到"
+  ],
+  "words": [
+    {
+      "word": "The",
+      "start": 0.0,
+      "end": 0.215
+    },
+    {
+      "word": "next",
+      "start": 0.215,
+      "end": 0.515
+    },
+    {
+      "word": "day,",
+      "start": 0.515,
+      "end": 0.915
+    },
+    {
+      "word": "the",
+      "start": 1.415,
+      "end": 1.535
+    },
+    {
+      "word": "trophy",
+      "start": 1.535,
+      "end": 2.015
+    },
+    {
+      "word": "was",
+      "start": 2.015,
+      "end": 2.455
+    },
+    {
+      "word": "back",
+      "start": 2.455,
+      "end": 2.815
+    },
+    {
+      "word": "in",
+      "start": 2.815,
+      "end": 3.135
+    },
+    {
+      "word": "the",
+      "start": 3.135,
+      "end": 3.435
+    },
+    {
+      "word": "glass",
+      "start": 3.435,
+      "end": 4.455
+    },
+    {
+      "word": "case,",
+      "start": 4.515,
+      "end": 4.635
+    },
+    {
+      "word": "shiny",
+      "start": 4.695,
+      "end": 5.415
+    },
+    {
+      "word": "and",
+      "start": 5.415,
+      "end": 5.935
+    },
+    {
+      "word": "clean.",
+      "start": 5.935,
+      "end": 6.455
+    },
+    {
+      "word": "And",
+      "start": 6.935,
+      "end": 7.735
+    },
+    {
+      "word": "the",
+      "start": 7.735,
+      "end": 8.035
+    },
+    {
+      "word": "team",
+      "start": 8.035,
+      "end": 8.375
+    },
+    {
+      "word": "had",
+      "start": 8.375,
+      "end": 8.755
+    },
+    {
+      "word": "a",
+      "start": 8.755,
+      "end": 8.955
+    },
+    {
+      "word": "new",
+      "start": 8.955,
+      "end": 9.195
+    },
+    {
+      "word": "friend.",
+      "start": 9.195,
+      "end": 9.595
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "audio": "s2-l13.wav",
+  "sample_rate": 48000,
+  "source": "scene2.wav",
+  "offset": 14.985,
+  "duration": 1.821,
+  "removed": [],
+  "text": "What are you looking for?",
+  "issues": [],
+  "words": [
+    {
+      "word": "What",
+      "start": 0.085,
+      "end": 0.299
+    },
+    {
+      "word": "are",
+      "start": 0.299,
+      "end": 0.46
+    },
+    {
+      "word": "you",
+      "start": 0.46,
+      "end": 0.638
+    },
+    {
+      "word": "looking",
+      "start": 0.638,
+      "end": 0.942
+    },
+    {
+      "word": "for?",
+      "start": 0.942,
+      "end": 1.246
+    }
+  ]
+}

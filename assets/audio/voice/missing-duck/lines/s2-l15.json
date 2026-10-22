@@ -1,0 +1,116 @@
+{
+  "audio": "s2-l15.wav",
+  "sample_rate": 48000,
+  "source": "scene2.wav",
+  "offset": 23.865,
+  "duration": 11.78,
+  "removed": [],
+  "text": "Under the seats, Mia found three small things: a white feather, a few pieces of popcorn, and a wet footprint.",
+  "issues": [
+    "「seats,」聽成「seeds,」",
+    "「things:」聽成「seeds.」",
+    "「few」聽成「new」"
+  ],
+  "words": [
+    {
+      "word": "Under",
+      "start": 0.015,
+      "end": 0.355
+    },
+    {
+      "word": "the",
+      "start": 0.355,
+      "end": 0.655
+    },
+    {
+      "word": "seats,",
+      "start": 0.655,
+      "end": 1.055
+    },
+    {
+      "word": "Mia",
+      "start": 1.455,
+      "end": 1.655
+    },
+    {
+      "word": "found",
+      "start": 1.655,
+      "end": 2.015
+    },
+    {
+      "word": "three",
+      "start": 2.015,
+      "end": 2.635
+    },
+    {
+      "word": "small",
+      "start": 2.635,
+      "end": 3.255
+    },
+    {
+      "word": "things:",
+      "start": 3.255,
+      "end": 3.575
+    },
+    {
+      "word": "a",
+      "start": 4.395,
+      "end": 4.635
+    },
+    {
+      "word": "white",
+      "start": 4.635,
+      "end": 4.915
+    },
+    {
+      "word": "feather,",
+      "start": 4.915,
+      "end": 5.375
+    },
+    {
+      "word": "a",
+      "start": 5.955,
+      "end": 6.075
+    },
+    {
+      "word": "few",
+      "start": 6.075,
+      "end": 6.295
+    },
+    {
+      "word": "pieces",
+      "start": 6.295,
+      "end": 6.895
+    },
+    {
+      "word": "of",
+      "start": 6.895,
+      "end": 7.795
+    },
+    {
+      "word": "popcorn,",
+      "start": 7.795,
+      "end": 8.335
+    },
+    {
+      "word": "and",
+      "start": 9.015,
+      "end": 9.195
+    },
+    {
+      "word": "a",
+      "start": 9.195,
+      "end": 9.675
+    },
+    {
+      "word": "wet",
+      "start": 9.675,
+      "end": 10.035
+    },
+    {
+      "word": "footprint.",
+      "start": 10.035,
+      "end": 10.875
+    }
+  ]
+}

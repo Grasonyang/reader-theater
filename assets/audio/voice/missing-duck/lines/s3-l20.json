@@ -1,0 +1,82 @@
+{
+  "audio": "s3-l20.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 4.615,
+  "duration": 8.13,
+  "removed": [],
+  "text": "Just then, they heard a strange sound from the storage room. Squeak. Squeak. Squeak.",
+  "issues": [],
+  "words": [
+    {
+      "word": "Just",
+      "start": 0.085,
+      "end": 0.465
+    },
+    {
+      "word": "then,",
+      "start": 0.465,
+      "end": 1.005
+    },
+    {
+      "word": "they",
+      "start": 1.345,
+      "end": 1.845
+    },
+    {
+      "word": "heard",
+      "start": 1.845,
+      "end": 2.165
+    },
+    {
+      "word": "a",
+      "start": 2.165,
+      "end": 2.405
+    },
+    {
+      "word": "strange",
+      "start": 2.405,
+      "end": 3.005
+    },
+    {
+      "word": "sound",
+      "start": 3.005,
+      "end": 3.705
+    },
+    {
+      "word": "from",
+      "start": 3.705,
+      "end": 4.125
+    },
+    {
+      "word": "the",
+      "start": 4.125,
+      "end": 4.325
+    },
+    {
+      "word": "storage",
+      "start": 4.325,
+      "end": 4.845
+    },
+    {
+      "word": "room.",
+      "start": 4.845,
+      "end": 5.365
+    },
+    {
+      "word": "Squeak.",
+      "start": 5.605,
+      "end": 6.465
+    },
+    {
+      "word": "Squeak.",
+      "start": 6.545,
+      "end": 7.105
+    },
+    {
+      "word": "Squeak.",
+      "start": 7.205,
+      "end": 7.785
+    }
+  ]
+}

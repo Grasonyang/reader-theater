@@ -1,0 +1,74 @@
+{
+  "audio": "s1-l11.wav",
+  "sample_rate": 48000,
+  "source": "scene1.wav",
+  "offset": 79.375,
+  "duration": 7.444,
+  "removed": [],
+  "text": "No. Only the trophy. And the door was still locked this morning.",
+  "issues": [
+    "「morning.」聽成「on」"
+  ],
+  "words": [
+    {
+      "word": "No.",
+      "start": 0.0,
+      "end": 0.606
+    },
+    {
+      "word": "Only",
+      "start": 1.05,
+      "end": 1.472
+    },
+    {
+      "word": "the",
+      "start": 1.472,
+      "end": 1.672
+    },
+    {
+      "word": "trophy.",
+      "start": 1.672,
+      "end": 2.117
+    },
+    {
+      "word": "And",
+      "start": 3.517,
+      "end": 3.85
+    },
+    {
+      "word": "the",
+      "start": 3.85,
+      "end": 4.117
+    },
+    {
+      "word": "door",
+      "start": 4.117,
+      "end": 4.428
+    },
+    {
+      "word": "was",
+      "start": 4.428,
+      "end": 4.85
+    },
+    {
+      "word": "still",
+      "start": 4.85,
+      "end": 5.294
+    },
+    {
+      "word": "locked",
+      "start": 5.294,
+      "end": 5.828
+    },
+    {
+      "word": "this",
+      "start": 5.828,
+      "end": 6.206
+    },
+    {
+      "word": "morning.",
+      "start": 6.206,
+      "end": 6.672
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "audio": "s3-l25.wav",
+  "sample_rate": 48000,
+  "source": "scene3.wav",
+  "offset": 48.835,
+  "duration": 9.83,
+  "removed": [],
+  "text": "Inside the storage room sat a little white duck. Next to the duck was the gold trophy, full of popcorn.",
+  "issues": [],
+  "words": [
+    {
+      "word": "Inside",
+      "start": 0.065,
+      "end": 0.605
+    },
+    {
+      "word": "the",
+      "start": 0.605,
+      "end": 0.825
+    },
+    {
+      "word": "storage",
+      "start": 0.825,
+      "end": 1.265
+    },
+    {
+      "word": "room",
+      "start": 1.265,
+      "end": 1.725
+    },
+    {
+      "word": "sat",
+      "start": 1.725,
+      "end": 2.145
+    },
+    {
+      "word": "a",
+      "start": 2.145,
+      "end": 2.425
+    },
+    {
+      "word": "little",
+      "start": 2.425,
+      "end": 2.745
+    },
+    {
+      "word": "white",
+      "start": 2.745,
+      "end": 3.145
+    },
+    {
+      "word": "duck.",
+      "start": 3.145,
+      "end": 3.545
+    },
+    {
+      "word": "Next",
+      "start": 3.845,
+      "end": 4.645
+    },
+    {
+      "word": "to",
+      "start": 4.645,
+      "end": 4.985
+    },
+    {
+      "word": "the",
+      "start": 4.985,
+      "end": 5.205
+    },
+    {
+      "word": "duck",
+      "start": 5.205,
+      "end": 5.545
+    },
+    {
+      "word": "was",
+      "start": 5.545,
+      "end": 5.965
+    },
+    {
+      "word": "the",
+      "start": 5.965,
+      "end": 6.145
+    },
+    {
+      "word": "gold",
+      "start": 6.145,
+      "end": 6.565
+    },
+    {
+      "word": "trophy,",
+      "start": 6.565,
+      "end": 7.225
+    },
+    {
+      "word": "full",
+      "start": 7.485,
+      "end": 8.165
+    },
+    {
+      "word": "of",
+      "start": 8.165,
+      "end": 8.585
+    },
+    {
+      "word": "popcorn.",
+      "start": 8.585,
+      "end": 9.145
+    }
+  ]
+}

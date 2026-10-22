@@ -1,0 +1,39 @@
+{
+  "audio": "s2-l19.wav",
+  "sample_rate": 48000,
+  "source": "scene2.wav",
+  "offset": 59.745,
+  "duration": 3.21,
+  "removed": [],
+  "text": "Ghosts don't eat popcorn, Ben.",
+  "issues": [
+    "「Ben.」聽成「then」"
+  ],
+  "words": [
+    {
+      "word": "Ghosts",
+      "start": 0.071,
+      "end": 0.433
+    },
+    {
+      "word": "don't",
+      "start": 0.433,
+      "end": 1.138
+    },
+    {
+      "word": "eat",
+      "start": 1.138,
+      "end": 1.29
+    },
+    {
+      "word": "popcorn,",
+      "start": 1.29,
+      "end": 1.786
+    },
+    {
+      "word": "Ben.",
+      "start": 1.786,
+      "end": 2.167
+    }
+  ]
+}
