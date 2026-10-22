@@ -25,7 +25,7 @@ npm run dev                      # 開 http://localhost:5173，按「播放台�
 | `node scripts/record_scene.mjs <劇本名稱> [場次] -o <輸出.mp4> [--page comic.html]` | 逐格算圖整場或整齣演出；`--page comic.html` 錄漫畫版 |
 | `uv run scripts/cut_sheet.py <角色表圖> assets/art/characters <角色 id...>` | 綠幕角色表去背、切成一人一張 PNG |
 | `uv run scripts/build_site.py` / `scripts/deploy_pages.sh` | 打包靜態網站（音訊轉 mp3）並推到 gh-pages |
-
+| `node scripts/script_pdf.mjs <劇本名稱> [--team "成員…"]` | 劇本排成讀者劇場講義 PDF（`docs/handouts/`），情緒與手勢轉成舞台提示 |
 | `uv run scripts/role_voices.py <劇本.json>` | 一人分飾多角：依角色設定變聲，輸出 `<名稱>-voices.json` |
 | `scripts/prep_scenes.sh [劇本名稱]` | 從 repo 裡的原始錄音重建每句音訊與時間戳（clone 後跑一次，網頁才能演） |
 | `scripts/spark_clone.sh` | 在 GPU 機器上用 F5-TTS 複製你的聲音，輸出 `<名稱>-clone.json`（見 docs/voice-clone.md） |
